@@ -47,7 +47,10 @@ class FirstPage extends StatelessWidget {
                 children: [
                   Positioned(
                     bottom: 0,
-                    child: Image.asset('assets/images/person.png'),
+                    child: Image.asset(
+                      'assets/images/person.png',
+                      scale: 2,
+                    ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),

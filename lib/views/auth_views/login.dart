@@ -3,6 +3,8 @@ import 'package:gap/gap.dart';
 import 'package:volex/utils/app_colors.dart';
 import 'package:volex/utils/button.dart';
 import 'package:volex/utils/custom_textfield.dart';
+import 'package:volex/views/auth_views/forgot_password.dart';
+import 'package:volex/views/home.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -17,7 +19,7 @@ class LoginView extends StatelessWidget {
           children: [
             Gap(MediaQuery.of(context).padding.top + 14),
             Text(
-              'Login with email',
+              'Login with Email',
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                     fontSize: 26,
@@ -41,12 +43,37 @@ class LoginView extends StatelessWidget {
             const Gap(15),
             const CustomTextfield(
               label: 'Password',
-              hintText: '0',
+              hintText: 'Enter password',
               obscureText: true,
             ),
-            const Gap(15),
-            primaryButton(context, title: 'Login'),
-            const Gap(16),
+            const Gap(21),
+            InkWell(
+              splashColor: Colors.transparent,
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => const ForgotPasswordView(),
+                ));
+              },
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Forgot Password?',
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 17,
+                        color: AppColors.primaryColor,
+                        decoration: TextDecoration.underline,
+                      ),
+                ),
+              ),
+            ),
+            const Spacer(),
+            primaryButton(context, title: 'Login', onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => const Home(),
+              ));
+            }),
+            const Gap(38),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -73,6 +100,7 @@ class LoginView extends StatelessWidget {
                 ),
               ],
             ),
+            const Gap(40),
           ],
         ),
       ),

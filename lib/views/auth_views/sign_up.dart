@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:volex/utils/app_colors.dart';
 import 'package:volex/utils/button.dart';
 import 'package:volex/utils/custom_textfield.dart';
+import 'package:volex/views/auth_views/otp_verification.dart';
 import 'package:volex/views/auth_views/login.dart';
 
 class SignupView extends StatelessWidget {
@@ -56,11 +57,15 @@ class SignupView extends StatelessWidget {
             const Gap(15),
             const CustomTextfield(
               label: 'Password',
-              hintText: '0',
+              hintText: 'Enter password',
               obscureText: true,
             ),
-            const Gap(15),
-            primaryButton(context, title: 'Create Account'),
+            const Spacer(),
+            primaryButton(context, title: 'Create Account', onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => const OTPVerificationView(),
+              ));
+            }),
             const Gap(8),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -90,6 +95,7 @@ class SignupView extends StatelessWidget {
                 ),
               ],
             ),
+            const Gap(40),
           ],
         ),
       ),
