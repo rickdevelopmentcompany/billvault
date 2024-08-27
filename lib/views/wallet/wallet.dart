@@ -144,7 +144,26 @@ class WalletView extends StatelessWidget {
                       ),
                 ),
               ),
-              Image.asset('assets/images/wallet_ill.png')
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    height: 250,
+                    alignment: Alignment.bottomCenter,
+                    padding: const EdgeInsets.only(bottom: 26),
+                      decoration: const BoxDecoration(
+                          image: DecorationImage(
+                              image:
+                                  AssetImage('assets/images/wallet_ill.png'))),
+                      child: Text(
+                        'Sorry! You don’t have any wallet activities yet..',
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 13,
+                            ),
+                      )),
+                ],
+              )
             ],
           ),
         ),

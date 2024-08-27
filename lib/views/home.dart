@@ -4,6 +4,8 @@ import 'package:gap/gap.dart';
 import 'package:volex/utils/app_colors.dart';
 import 'package:volex/utils/nav_controller.dart';
 import 'package:volex/views/home/dashboard.dart';
+import 'package:volex/views/profile/profile.dart';
+import 'package:volex/views/virtual_dollar_card/virtual_dollar_card.dart';
 import 'package:volex/views/wallet/wallet.dart';
 
 class Home extends StatefulWidget {
@@ -28,12 +30,12 @@ class _HomeState extends State<Home> {
     {
       'label': 'Virtual Card',
       'svg': 'assets/svgs/card.svg',
-      'widget': const DashboardView()
+      'widget': const VirtualDollarCard()
     },
     {
       'label': 'Profile',
       'svg': 'assets/svgs/person.svg',
-      'widget': const DashboardView()
+      'widget': const ProfileView()
     },
   ];
 
