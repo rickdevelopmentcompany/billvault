@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:volex/utils/app_colors.dart';
+import 'package:volex/views/home/transfer/transfer_view.dart';
+import 'package:volex/views/home/withdrawal/withdrawal_by_card_view.dart';
 
 class DashboardView extends StatelessWidget {
   const DashboardView({super.key});
@@ -60,20 +62,28 @@ class DashboardView extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 4,
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF003130),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      height: 35,
-                      child: Text(
-                        'Transfer',
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                              color: Colors.white,
-                            ),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => const TransferView(),
+                        ));
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF003130),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        height: 35,
+                        child: Text(
+                          'Transfer',
+                          style:
+                              Theme.of(context).textTheme.labelLarge?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 13,
+                                    color: Colors.white,
+                                  ),
+                        ),
                       ),
                     ),
                   ),
@@ -83,20 +93,28 @@ class DashboardView extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 4,
-                    child: Container(
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF003130),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      height: 35,
-                      child: Text(
-                        'Withdraw',
-                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              fontSize: 13,
-                              color: Colors.white,
-                            ),
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (_) => const WithdrawalByCardView(),
+                        ));
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: const Color(0xFF003130),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        height: 35,
+                        child: Text(
+                          'Withdraw',
+                          style:
+                              Theme.of(context).textTheme.labelLarge?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 13,
+                                    color: Colors.white,
+                                  ),
+                        ),
                       ),
                     ),
                   ),

@@ -20,7 +20,7 @@ Widget primaryButton(
         child: Text(
           title,
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w800,
+                fontWeight: FontWeight.w700,
                 fontSize: 17,
                 color: Colors.white
               ),

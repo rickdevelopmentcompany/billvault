@@ -120,7 +120,7 @@ class ProfileView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                       color: const Color(0xFF003130),
                     ),
-                    child: SvgPicture.asset('assets/svgs/person.svg'),
+                    child: SvgPicture.asset('assets/svgs/headset.svg'),
                   ),
                   const Gap(20),
                   Text(
@@ -153,7 +153,7 @@ class ProfileView extends StatelessWidget {
                       borderRadius: BorderRadius.circular(16),
                       color: const Color(0xFF003130),
                     ),
-                    child: SvgPicture.asset('assets/svgs/person.svg'),
+                    child: SvgPicture.asset('assets/svgs/about.svg'),
                   ),
                   const Gap(20),
                   Text(
@@ -184,9 +184,9 @@ class ProfileView extends StatelessWidget {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(16),
-                      color: const Color(0xFF003130),
+                      color: const Color(0xFFDF1313),
                     ),
-                    child: SvgPicture.asset('assets/svgs/person.svg'),
+                    child: SvgPicture.asset('assets/svgs/logout.svg'),
                   ),
                   const Gap(20),
                   Text(
@@ -194,13 +194,10 @@ class ProfileView extends StatelessWidget {
                     style: Theme.of(context).textTheme.labelLarge?.copyWith(
                           fontWeight: FontWeight.w700,
                           fontSize: 20,
+                          color: const Color(0xFFDF1313),
                         ),
                   ),
                   const Spacer(),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 16,
-                  )
                 ],
               ),
             ),

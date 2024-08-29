@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:volex/utils/button.dart';
+import 'package:volex/views/virtual_dollar_card/kyc_verification.dart';
 
 class VirtualDollarCard extends StatelessWidget {
   const VirtualDollarCard({super.key});
@@ -22,7 +23,7 @@ class VirtualDollarCard extends StatelessWidget {
                     fontSize: 18,
                   ),
             ),
-            const Gap(38),
+            const Gap(28),
             Container(
               // height: 200,
               padding: const EdgeInsets.symmetric(
@@ -66,21 +67,25 @@ class VirtualDollarCard extends StatelessWidget {
                         children: [
                           Text(
                             'Card holder name',
-                            style:
-                                Theme.of(context).textTheme.labelLarge?.copyWith(
-                                      fontSize: 12,
-                                      color: Colors.white,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                ),
                           ),
                           const Gap(10),
                           Text(
                             'Norman Manzoor',
-                            style:
-                                Theme.of(context).textTheme.labelLarge?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
                           ),
                         ],
                       ),
@@ -89,21 +94,25 @@ class VirtualDollarCard extends StatelessWidget {
                         children: [
                           Text(
                             'Expiry date',
-                            style:
-                                Theme.of(context).textTheme.labelLarge?.copyWith(
-                                      fontSize: 12,
-                                      color: Colors.white,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                  fontSize: 12,
+                                  color: Colors.white,
+                                ),
                           ),
                           const Gap(10),
                           Text(
                             '02/30',
-                            style:
-                                Theme.of(context).textTheme.labelLarge?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                    ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 16,
+                                  color: Colors.white,
+                                ),
                           ),
                         ],
                       ),
@@ -134,18 +143,20 @@ class VirtualDollarCard extends StatelessWidget {
                       children: [
                         Text(
                           'Budget Effectively',
-                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.labelLarge?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
                         ),
                         const Gap(8),
                         Text(
                           'Limit spending by only using the\namount uploaded to your card',
-                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 15,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.labelLarge?.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15,
+                                  ),
                         ),
                       ],
                     ),
@@ -162,18 +173,20 @@ class VirtualDollarCard extends StatelessWidget {
                       children: [
                         Text(
                           'Digital Native',
-                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.labelLarge?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
                         ),
                         const Gap(8),
                         Text(
                           'A digital card for your digital life',
-                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 15,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.labelLarge?.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15,
+                                  ),
                         ),
                       ],
                     ),
@@ -190,18 +203,20 @@ class VirtualDollarCard extends StatelessWidget {
                       children: [
                         Text(
                           'Card Creating Fee',
-                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.labelLarge?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
                         ),
                         const Gap(8),
                         Text(
                           'USD 3.00 fee to create a USD card,\nNGN 1,000.00 fee to create a NGN\n card ',
-                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 15,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.labelLarge?.copyWith(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 15,
+                                  ),
                         ),
                       ],
                     ),
@@ -210,9 +225,12 @@ class VirtualDollarCard extends StatelessWidget {
               ],
             ),
             const Gap(34),
-            primaryButton(context, title: 'Proceed'),
+            primaryButton(context, title: 'Proceed', onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => const KycVerification(),
+              ));
+            }),
             const Gap(24),
-
           ],
         ),
       ),
