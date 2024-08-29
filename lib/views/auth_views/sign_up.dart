@@ -23,11 +23,12 @@ class SignupView extends StatelessWidget {
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                     fontSize: 26,
+                    color: Colors.black,
                   ),
             ),
             const Gap(8),
             Text(
-              'Be sure to provide correct defails.',
+              'Be sure to provide correct details.',
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.w500,
                     fontSize: 17,
@@ -62,8 +63,10 @@ class SignupView extends StatelessWidget {
             ),
             const Spacer(),
             primaryButton(context, title: 'Create Account', onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => const OTPVerificationView(),
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => const OTPVerificationView(
+                  next: LoginView(),
+                ),
               ));
             }),
             const Gap(8),

@@ -127,7 +127,7 @@ class ConfirmTransferView extends StatelessWidget {
               const Gap(26),
               primaryButton(context, title: 'Confirm', onTap: () {
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (_) => const SuccessView(),
+                  builder: (_) => const SuccessView(content: 'Your transfer has been\nsuccessful',),
                 ));
               }),
             ],

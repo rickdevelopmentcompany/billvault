@@ -23,6 +23,7 @@ class LoginView extends StatelessWidget {
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                     fontSize: 26,
+                    color: Colors.black,
                   ),
             ),
             const Gap(8),

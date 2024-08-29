@@ -38,13 +38,24 @@ class FirstPage extends StatelessWidget {
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                       fontWeight: FontWeight.w400,
                       color: Colors.white,
-                      fontSize: 17,
+                      fontSize: 16,
                     ),
               ),
             ),
+            const Gap(16),
             Expanded(
               child: Stack(
                 children: [
+                  Container(
+                    height: 300,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        color: const Color(0xFF375958),
+                        width: 50,
+                      ),
+                    ),
+                  ),
                   Positioned(
                     bottom: 0,
                     child: Image.asset(

@@ -4,6 +4,7 @@ import 'package:volex/utils/app_colors.dart';
 import 'package:volex/utils/button.dart';
 import 'package:volex/utils/custom_textfield.dart';
 import 'package:volex/views/auth_views/otp_verification.dart';
+import 'package:volex/views/auth_views/reset_password.dart';
 
 class ForgotPasswordView extends StatelessWidget {
   const ForgotPasswordView({super.key});
@@ -54,7 +55,10 @@ class ForgotPasswordView extends StatelessWidget {
             const Gap(30),
             primaryButton(context, title: 'Reset Password', onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (_) => const OTPVerificationView(fromEmail: false,)),
+                MaterialPageRoute(
+                    builder: (_) => const OTPVerificationView(
+                          next: ResetPasswordView(),
+                        )),
               );
             }),
             const Gap(42)

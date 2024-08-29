@@ -4,12 +4,13 @@ import 'package:gap/gap.dart';
 import 'package:pinput/pinput.dart';
 import 'package:volex/utils/app_colors.dart';
 import 'package:volex/utils/button.dart';
-import 'package:volex/views/auth_views/login.dart';
-import 'package:volex/views/auth_views/reset_password.dart';
 
 class OTPVerificationView extends StatelessWidget {
-  final bool fromEmail;
-  const OTPVerificationView({super.key, this.fromEmail = true});
+  final Widget next;
+  const OTPVerificationView({
+    super.key,
+    required this.next,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,7 @@ class OTPVerificationView extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontWeight: FontWeight.w700,
                         fontSize: 18,
+                        color: const Color(0xFF11183C),
                       ),
                 ),
               ],
@@ -44,6 +46,7 @@ class OTPVerificationView extends StatelessWidget {
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                     fontSize: 30,
+                    color: const Color(0xFF11183C),
                   ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -72,6 +75,7 @@ class OTPVerificationView extends StatelessWidget {
                   style: Theme.of(context).textTheme.labelLarge?.copyWith(
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
+                        color: const Color(0xFF11183C),
                       ),
                 ),
                 Text(
@@ -89,9 +93,8 @@ class OTPVerificationView extends StatelessWidget {
               context,
               title: 'Confirm',
               onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) =>
-                      fromEmail ? const LoginView() : const ResetPasswordView(),
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (_) => next,
                 ));
               },
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:volex/utils/app_theme.dart';
 import 'package:volex/views/onboarding/onboarding.dart';
 
 void main() {
@@ -10,10 +11,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       themeMode: ThemeMode.light,
-      home: FirstPage(),
+      theme: CustomAppTheme.lightTheme,
+      darkTheme: CustomAppTheme.darkTheme,
+      home: const FirstPage(),
     );
   }
 }

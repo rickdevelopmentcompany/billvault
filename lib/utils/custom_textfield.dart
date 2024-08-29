@@ -65,9 +65,14 @@ class _CustomTextfieldState extends State<CustomTextfield> {
         if (widget.label?.isNotEmpty ?? false)
           Text(
             widget.label ?? '',
-            style: const TextStyle(
-              color: AppColors.textGreyColor,
-            ),
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                fontWeight: FontWeight.w500,
+                fontSize: 16,
+                color: const Color(0xFF111111)),
+
+            // const TextStyle(
+            //   color: AppColors.textGreyColor,
+            // ),
           ),
         const Gap(4),
         Container(
@@ -97,7 +102,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
                   ? Padding(
                       padding: const EdgeInsets.all(12),
                       child: SvgPicture.asset(
-                        'assets/svg/${widget.trailingSvg}.svg',
+                        'assets/svgs/${widget.trailingSvg}.svg',
                         fit: BoxFit.scaleDown,
                       ),
                     )
@@ -116,7 +121,7 @@ class _CustomTextfieldState extends State<CustomTextfield> {
                               : Padding(
                                   padding: const EdgeInsets.all(12),
                                   child: SvgPicture.asset(
-                                    'assets/svg/eye_closed.svg',
+                                    'assets/svgs/eye_closed.svg',
                                     colorFilter: const ColorFilter.mode(
                                       AppColors.textGreyColor,
                                       BlendMode.srcIn,
@@ -151,11 +156,10 @@ class _CustomTextfieldState extends State<CustomTextfield> {
               hintText: widget.hintText,
               hintStyle: const TextStyle(fontSize: 12),
               prefix: widget.svgPrefix != null
-                  ? SvgPicture.asset(
-                      widget.svgPrefix!,
-                      colorFilter: const ColorFilter.mode(
-                        AppColors.textGreyColor,
-                        BlendMode.srcIn,
+                  ? Padding(
+                      padding: const EdgeInsets.all(2),
+                      child: SvgPicture.asset(
+                        'assets/svgs/${widget.svgPrefix}.svg',
                       ),
                     )
                   : null,

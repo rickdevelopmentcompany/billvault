@@ -5,7 +5,14 @@ import 'package:volex/utils/button.dart';
 
 class SuccessView extends StatelessWidget {
   final String? content;
-  const SuccessView({super.key, this.content});
+  final String? buttonText;
+  final Widget? next;
+  const SuccessView({
+    super.key,
+    this.content,
+    this.buttonText,
+    this.next,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -53,8 +60,15 @@ class SuccessView extends StatelessWidget {
             ),
             Container(
               margin: const EdgeInsets.only(bottom: 38),
-              child: primaryButton(context, title: 'Go to Home', onTap: () {
-                Navigator.of(context).pop();
+              child: primaryButton(context, title: buttonText ?? 'Go to Home',
+                  onTap: () {
+                if (next == null) {
+                  Navigator.of(context).pop();
+                  return;
+                }
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                  builder: (_) => next!,
+                ));
               }),
             ),
           ],

@@ -5,7 +5,8 @@ import 'package:volex/utils/app_colors.dart';
 import 'package:volex/utils/custom_textfield.dart';
 import 'package:volex/utils/button.dart';
 import 'package:volex/views/auth_views/otp_verification.dart';
-import 'package:volex/views/home/transfer/confirm_transfer_view.dart';
+import 'package:volex/views/success_view.dart';
+import 'package:volex/views/virtual_dollar_card/card_details_view.dart';
 
 class KycVerification extends StatelessWidget {
   const KycVerification({super.key});
@@ -49,7 +50,7 @@ class KycVerification extends StatelessWidget {
             ),
             const Gap(22),
             Text(
-              'Verify your identity! Upload a government-issued ID (Passport, driver’s license, national ID card) to complete KYC verification,secure your account and unlock full platform features.',
+              'Verify your identity! Upload a\ngovernment-issued ID (Passport, driver’s license, national ID card) to complete KYC verification, secure your account and unlock full platform features.',
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                     fontWeight: FontWeight.w400,
                     fontSize: 16,
@@ -62,7 +63,7 @@ class KycVerification extends StatelessWidget {
               label: 'Document Type',
               hintText: 'BVN',
             ),
-            const Gap(28),
+            const Gap(24),
             const CustomTextfield(
               label: 'BVN Number',
               hintText: 'Enter BVN number',
@@ -70,7 +71,13 @@ class KycVerification extends StatelessWidget {
             const Spacer(),
             primaryButton(context, title: 'Proceed', onTap: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (_) => const OTPVerificationView(),
+                builder: (_) => const OTPVerificationView(
+                  next: SuccessView(
+                    content: 'Your payment has been successful',
+                    buttonText: 'View Card',
+                    next: CardDetailsView(),
+                  ),
+                ),
               ));
             }),
             const Gap(38),
