@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
-import 'package:volex/views/home/bills_payment/buy_airtime.dart';
+import 'package:volex/views/home/bills_payment/airtime_bill_view.dart';
+import 'package:volex/views/home/bills_payment/airtime_to_cash_view.dart';
+import 'package:volex/views/home/bills_payment/data_bill_view.dart.dart';
+import 'package:volex/views/home/bills_payment/electricity_bill_view.dart';
+import 'package:volex/views/home/bills_payment/tv_bill_view.dart';
 
 class BillsPaymentView extends StatefulWidget {
   const BillsPaymentView({super.key});
@@ -60,17 +64,49 @@ class BillsPaymentViewState extends State<BillsPaymentView> {
                     ),
                   );
                 }),
-                essentialWidget(context, svg: 'databill', title: 'Data'),
-                essentialWidget(context, svg: 'tvbill', title: 'TV'),
+                essentialWidget(context, svg: 'databill', title: 'Data',
+                    onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const BuyDataView(),
+                    ),
+                  );
+                }),
+                essentialWidget(
+                  context,
+                  svg: 'tvbill',
+                  title: 'TV',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const TvBillView(),
+                      ),
+                    );
+                  },
+                ),
                 essentialWidget(
                   context,
                   svg: 'electricitybill',
                   title: 'Electricity',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const ElectricityBillView(),
+                      ),
+                    );
+                  },
                 ),
                 essentialWidget(
                   context,
                   svg: 'airtime_to_cash',
                   title: 'Airtime to Cash',
+                  onTap: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (_) => const AirtimeToCashView(),
+                      ),
+                    );
+                  },
                 ),
               ],
             )

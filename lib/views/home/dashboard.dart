@@ -4,6 +4,7 @@ import 'package:gap/gap.dart';
 import 'package:volex/utils/app_colors.dart';
 import 'package:volex/views/home/bills_payment/bills_payment.dart';
 import 'package:volex/views/home/buy_giftcard/buy_giftcard.dart';
+import 'package:volex/views/home/crypto/crypto_view.dart';
 import 'package:volex/views/home/transfer/transfer_view.dart';
 import 'package:volex/views/home/withdrawal/withdrawal_by_card_view.dart';
 
@@ -235,39 +236,47 @@ class DashboardView extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
-                    alignment: Alignment.topLeft,
-                    height: 139,
-                    width: 150,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 15, vertical: 12),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: const Color(0xBFF7A9B7),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CircleAvatar(
-                          backgroundColor: const Color(0xFF2083AE),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SvgPicture.asset(
-                              'assets/svgs/dash_crypto.svg',
+                  InkWell(
+                    onTap: () {
+                      // 
+                        Navigator.of(context).push(MaterialPageRoute(
+                        builder: (_) => const CryptoView(),
+                      ));
+                    },
+                    child: Container(
+                      alignment: Alignment.topLeft,
+                      height: 139,
+                      width: 150,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 15, vertical: 12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: const Color(0xBFF7A9B7),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CircleAvatar(
+                            backgroundColor: const Color(0xFF2083AE),
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: SvgPicture.asset(
+                                'assets/svgs/dash_crypto.svg',
+                              ),
                             ),
                           ),
-                        ),
-                        const Gap(16),
-                        Text(
-                          'Crypto',
-                          style:
-                              Theme.of(context).textTheme.labelLarge?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13,
-                                    color: Colors.black,
-                                  ),
-                        )
-                      ],
+                          const Gap(16),
+                          Text(
+                            'Crypto',
+                            style:
+                                Theme.of(context).textTheme.labelLarge?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 13,
+                                      color: Colors.black,
+                                    ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                 ],
