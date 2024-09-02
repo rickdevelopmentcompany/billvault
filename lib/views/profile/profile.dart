@@ -3,6 +3,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:gap/gap.dart';
 import 'package:volex/views/profile/profile_setting.dart';
 import 'package:volex/views/profile/setting.dart';
+import 'package:volex/views/profile/setting_transfer.dart';
+import 'package:volex/views/profile/support.dart';
 
 class ProfileView extends StatelessWidget {
   const ProfileView({super.key});
@@ -124,69 +126,85 @@ class ProfileView extends StatelessWidget {
               ),
             ),
             const Gap(18),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: const Color(0xFFF5F5F5),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: const Color(0xFF003130),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => const SupportView(),
+                ));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: const Color(0xFFF5F5F5),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: const Color(0xFF003130),
+                      ),
+                      child: SvgPicture.asset('assets/svgs/headset.svg'),
                     ),
-                    child: SvgPicture.asset('assets/svgs/headset.svg'),
-                  ),
-                  const Gap(20),
-                  Text(
-                    'Support',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20,
-                        ),
-                  ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 16,
-                  )
-                ],
+                    const Gap(20),
+                    Text(
+                      'Support',
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                          ),
+                    ),
+                    const Spacer(),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                    )
+                  ],
+                ),
               ),
             ),
             const Gap(18),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(16),
-                color: const Color(0xFFF5F5F5),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: const Color(0xFF003130),
+            InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) => const SettingTransferView(),
+                ));
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  color: const Color(0xFFF5F5F5),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(16),
+                        color: const Color(0xFF003130),
+                      ),
+                      child: SvgPicture.asset('assets/svgs/about.svg'),
                     ),
-                    child: SvgPicture.asset('assets/svgs/about.svg'),
-                  ),
-                  const Gap(20),
-                  Text(
-                    'About',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20,
-                        ),
-                  ),
-                  const Spacer(),
-                  const Icon(
-                    Icons.arrow_forward_ios,
-                    size: 16,
-                  )
-                ],
+                    const Gap(20),
+                    Text(
+                      'About',
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                          ),
+                    ),
+                    const Spacer(),
+                    const Icon(
+                      Icons.arrow_forward_ios,
+                      size: 16,
+                    )
+                  ],
+                ),
               ),
             ),
             const Gap(18),

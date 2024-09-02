@@ -5,7 +5,9 @@ import 'package:volex/views/auth_views/otp_verification.dart';
 import 'package:volex/views/success_view.dart';
 
 class PinBottomsheetView extends StatefulWidget {
-  const PinBottomsheetView({super.key});
+  final String? successText;
+  final Widget? next;
+  const PinBottomsheetView({super.key, this.successText, this.next});
 
   @override
   State<PinBottomsheetView> createState() => _PinBottomsheetViewState();
@@ -58,9 +60,11 @@ class _PinBottomsheetViewState extends State<PinBottomsheetView> {
               onCompleted: (val) {
                 Navigator.of(context).pop();
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (_) => const OTPVerificationView(
-                    next: SuccessView(),
-                  ),
+                  builder: (_) =>
+                      widget.next ??
+                      OTPVerificationView(
+                        next: SuccessView(content: widget.successText,),
+                      ),
                 ));
               },
             ),

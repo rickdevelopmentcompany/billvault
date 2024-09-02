@@ -5,6 +5,8 @@ import 'package:volex/utils/app_colors.dart';
 import 'package:volex/views/home/bills_payment/bills_payment.dart';
 import 'package:volex/views/home/buy_giftcard/buy_giftcard.dart';
 import 'package:volex/views/home/crypto/crypto_view.dart';
+import 'package:volex/views/home/flight/flight.dart';
+import 'package:volex/views/home/hotel_booking/hotel_booking.dart';
 import 'package:volex/views/home/transfer/transfer_view.dart';
 import 'package:volex/views/home/withdrawal/withdrawal_by_card_view.dart';
 
@@ -16,273 +18,369 @@ class DashboardView extends StatelessWidget {
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Gap(MediaQuery.of(context).padding.top + 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      CircleAvatar(
-                        radius: 16,
-                        backgroundColor: AppColors.primaryColor,
-                      ),
-                      Gap(8),
-                      Text('Hi Divine 👋🏿'),
-                    ],
-                  ),
-                  InkWell(
-                    onTap: () {},
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
+        child: Column(
+          children: [
+            Gap(MediaQuery.of(context).padding.top + 30),
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Add money',
-                          style:
-                              Theme.of(context).textTheme.labelLarge?.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 12,
-                                    color: const Color(0xFF18191F),
-                                  ),
+                        const Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                              radius: 16,
+                              backgroundColor: AppColors.primaryColor,
+                            ),
+                            Gap(8),
+                            Text('Hi Divine 👋🏿'),
+                          ],
                         ),
-                        const Gap(8),
-                        SvgPicture.asset('assets/svgs/add.svg'),
-                        const Gap(8),
-                        SvgPicture.asset('assets/svgs/notification.svg'),
+                        InkWell(
+                          onTap: () {},
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                'Add money',
+                                style:
+                                    Theme.of(context).textTheme.labelLarge?.copyWith(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 12,
+                                          color: const Color(0xFF18191F),
+                                        ),
+                              ),
+                              const Gap(8),
+                              SvgPicture.asset('assets/svgs/add.svg'),
+                              const Gap(8),
+                              SvgPicture.asset('assets/svgs/notification.svg'),
+                            ],
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-                ],
-              ),
-              const Gap(24),
-              dashCard(context),
-              const Gap(13),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    flex: 4,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => const TransferView(),
-                        ));
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF003130),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        height: 35,
-                        child: Text(
-                          'Transfer',
-                          style:
-                              Theme.of(context).textTheme.labelLarge?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13,
-                                    color: Colors.white,
-                                  ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  // const Gap(28),
-                  const Spacer(
-                    flex: 1,
-                  ),
-                  Expanded(
-                    flex: 4,
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (_) => const WithdrawalByCardView(),
-                        ));
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF003130),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        height: 35,
-                        child: Text(
-                          'Withdraw',
-                          style:
-                              Theme.of(context).textTheme.labelLarge?.copyWith(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 13,
-                                    color: Colors.white,
-                                  ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const Gap(23),
-              Image.asset('assets/images/dash_image.png'),
-              const Gap(14),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircleAvatar(
-                    radius: 4,
-                  ),
-                  Gap(7),
-                  CircleAvatar(
-                    radius: 4,
-                    backgroundColor: AppColors.primaryColor,
-                  ),
-                  Gap(7),
-                  CircleAvatar(
-                    radius: 4,
-                  ),
-                ],
-              ),
-              const Gap(16),
-              Wrap(
-                spacing: 14,
-                runSpacing: 14,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => const BuyGiftcardView(),
-                      ));
-                    },
-                    child: Container(
-                      alignment: Alignment.topLeft,
-                      height: 139,
-                      width: 150,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xBFC3E9E9),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: const Color(0xFF39D6D6),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
-                                'assets/svgs/dash_giftcard.svg',
+                    const Gap(24),
+                    dashCard(context),
+                    const Gap(13),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          flex: 4,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => const TransferView(),
+                              ));
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF003130),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              height: 35,
+                              child: Text(
+                                'Transfer',
+                                style:
+                                    Theme.of(context).textTheme.labelLarge?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13,
+                                          color: Colors.white,
+                                        ),
                               ),
                             ),
                           ),
-                          const Gap(16),
-                          Text(
-                            'Buy Gift Card',
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelLarge
-                                ?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 13,
-                                  color: Colors.black,
-                                ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => const BillsPaymentView(),
-                      ));
-                    },
-                    child: Container(
-                      alignment: Alignment.topLeft,
-                      height: 139,
-                      width: 150,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xBFF7F4A9),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: const Color(0xFF752999),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
-                                'assets/svgs/bill.svg',
+                        ),
+                        // const Gap(28),
+                        const Spacer(
+                          flex: 1,
+                        ),
+                        Expanded(
+                          flex: 4,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => const WithdrawalByCardView(),
+                              ));
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF003130),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              height: 35,
+                              child: Text(
+                                'Withdraw',
+                                style:
+                                    Theme.of(context).textTheme.labelLarge?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 13,
+                                          color: Colors.white,
+                                        ),
                               ),
                             ),
                           ),
-                          const Gap(16),
-                          Text(
-                            'Bill Payment',
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelLarge
-                                ?.copyWith(
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 13,
-                                  color: Colors.black,
-                                ),
-                          )
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      // 
-                        Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => const CryptoView(),
-                      ));
-                    },
-                    child: Container(
-                      alignment: Alignment.topLeft,
-                      height: 139,
-                      width: 150,
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 15, vertical: 12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: const Color(0xBFF7A9B7),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          CircleAvatar(
-                            backgroundColor: const Color(0xFF2083AE),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: SvgPicture.asset(
-                                'assets/svgs/dash_crypto.svg',
-                              ),
+                    const Gap(23),
+                    Image.asset('assets/images/dash_image.png'),
+                    const Gap(14),
+                    const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: 4,
+                        ),
+                        Gap(7),
+                        CircleAvatar(
+                          radius: 4,
+                          backgroundColor: AppColors.primaryColor,
+                        ),
+                        Gap(7),
+                        CircleAvatar(
+                          radius: 4,
+                        ),
+                      ],
+                    ),
+                    const Gap(16),
+                    Wrap(
+                      spacing: 14,
+                      runSpacing: 14,
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => const BuyGiftcardView(),
+                            ));
+                          },
+                          child: Container(
+                            alignment: Alignment.topLeft,
+                            height: 139,
+                            width: 150,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 12),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color(0xBFC3E9E9),
                             ),
-                          ),
-                          const Gap(16),
-                          Text(
-                            'Crypto',
-                            style:
-                                Theme.of(context).textTheme.labelLarge?.copyWith(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 13,
-                                      color: Colors.black,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: const Color(0xFF39D6D6),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SvgPicture.asset(
+                                      'assets/svgs/dash_giftcard.svg',
                                     ),
-                          )
-                        ],
-                      ),
+                                  ),
+                                ),
+                                const Gap(16),
+                                Text(
+                                  'Buy Gift Card',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13,
+                                        color: Colors.black,
+                                      ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => const BillsPaymentView(),
+                            ));
+                          },
+                          child: Container(
+                            alignment: Alignment.topLeft,
+                            height: 139,
+                            width: 150,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 12),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color(0xBFF7F4A9),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: const Color(0xFF752999),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SvgPicture.asset(
+                                      'assets/svgs/bill.svg',
+                                    ),
+                                  ),
+                                ),
+                                const Gap(16),
+                                Text(
+                                  'Bill Payment',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13,
+                                        color: Colors.black,
+                                      ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => const CryptoView(),
+                            ));
+                          },
+                          child: Container(
+                            alignment: Alignment.topLeft,
+                            height: 139,
+                            width: 150,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 12),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color(0xBFF7A9B7),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: const Color(0xFF2083AE),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SvgPicture.asset(
+                                      'assets/svgs/dash_crypto.svg',
+                                    ),
+                                  ),
+                                ),
+                                const Gap(16),
+                                Text(
+                                  'Crypto',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13,
+                                        color: Colors.black,
+                                      ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => const FlightReservation(),
+                            ));
+                          },
+                          child: Container(
+                            alignment: Alignment.topLeft,
+                            height: 139,
+                            width: 150,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 12),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color(0xFF83EFFF),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: const Color(0xFFD90429),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SvgPicture.asset(
+                                      'assets/svgs/flight.svg',
+                                    ),
+                                  ),
+                                ),
+                                const Gap(16),
+                                Text(
+                                  'Flight Reservation',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13,
+                                        color: Colors.black,
+                                      ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (_) => const HotelBooking(),
+                            ));
+                          },
+                          child: Container(
+                            alignment: Alignment.topLeft,
+                            height: 139,
+                            width: 150,
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 12),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color(0xFFFFBF83),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CircleAvatar(
+                                  backgroundColor: const Color(0xFF04D98C),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: SvgPicture.asset(
+                                      'assets/svgs/hotel.svg',
+                                    ),
+                                  ),
+                                ),
+                                const Gap(16),
+                                Text(
+                                  'Hotel Booking',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .labelLarge
+                                      ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 13,
+                                        color: Colors.black,
+                                      ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              )
-            ],
-          ),
+                    Gap(MediaQuery.of(context).padding.bottom + 18),
+                  ],
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -17,10 +17,13 @@ class CustomTextfield extends StatefulWidget {
   final bool enabled;
   final bool readOnly;
   final bool autofocus;
+  final bool showBorder;
   final TextInputType? keyboardType;
   final VoidCallback? callback;
   final String? trailingSvg;
   final double? radius;
+  final int? minLines;
+  final Color? color;
 
   const CustomTextfield({
     super.key,
@@ -31,6 +34,7 @@ class CustomTextfield extends StatefulWidget {
     this.svgPrefix,
     this.validator,
     this.obscureText = false,
+    this.showBorder = true,
     this.autoValidate = false,
     this.readOnly = false,
     this.autofocus = false,
@@ -39,6 +43,8 @@ class CustomTextfield extends StatefulWidget {
     this.callback,
     this.trailingSvg,
     this.radius,
+    this.minLines,
+    this.color,
   });
 
   @override
@@ -86,6 +92,8 @@ class _CustomTextfieldState extends State<CustomTextfield> {
           ),
           width: widget.width,
           child: TextFormField(
+            minLines: widget.obscureText ? 1 : widget.minLines,
+            maxLines: widget.obscureText ? 1 : widget.minLines,
             autofocus: widget.autofocus,
             readOnly: widget.readOnly,
             onTap: widget.callback,
@@ -134,37 +142,44 @@ class _CustomTextfieldState extends State<CustomTextfield> {
                                 ),
                         )
                       : null,
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(widget.radius ?? 12),
-                borderSide: BorderSide(
-                  color: AppColors.textGreyColor.withOpacity(.9),
-                ),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(widget.radius ?? 12),
-                borderSide: BorderSide(
-                  color: AppColors.textGreyColor.withOpacity(.4),
-                ),
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(widget.radius ?? 12),
-                borderSide: BorderSide(
-                  color: AppColors.textGreyColor.withOpacity(.4),
-                ),
-              ),
-              contentPadding: const EdgeInsets.symmetric(horizontal: 20),
+              focusedBorder: widget.showBorder
+                  ? OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(widget.radius ?? 12),
+                      borderSide: BorderSide(
+                        color: AppColors.textGreyColor.withOpacity(.9),
+                      ),
+                    )
+                  : InputBorder.none,
+              enabledBorder: widget.showBorder
+                  ? OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(widget.radius ?? 12),
+                      borderSide: BorderSide(
+                        color: AppColors.textGreyColor.withOpacity(.4),
+                      ),
+                    )
+                  : InputBorder.none,
+              disabledBorder: widget.showBorder
+                  ? OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(widget.radius ?? 12),
+                      borderSide: BorderSide(
+                        color: AppColors.textGreyColor.withOpacity(.4),
+                      ),
+                    )
+                  : InputBorder.none,
+              contentPadding: EdgeInsets.symmetric(
+                  horizontal: 20, vertical: widget.minLines == null ? 2 : 12),
               hintText: widget.hintText,
               hintStyle: const TextStyle(fontSize: 12),
-              prefix: widget.svgPrefix != null
+              prefixIcon: widget.svgPrefix != null
                   ? Padding(
-                      padding: const EdgeInsets.all(2),
+                      padding: const EdgeInsets.all(12),
                       child: SvgPicture.asset(
                         'assets/svgs/${widget.svgPrefix}.svg',
                       ),
                     )
                   : null,
               filled: true,
-              fillColor: Colors.white,
+              fillColor: widget.color ?? Colors.white,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(28),
                 borderSide: BorderSide(

@@ -107,7 +107,7 @@ class ProfileSettingView extends StatelessWidget {
                 ),
               ],
             ),
-            const Gap(36),
+            Gap(MediaQuery.of(context).padding.bottom + 36),
           ],
         ),
       ),

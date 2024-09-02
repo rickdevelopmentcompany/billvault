@@ -46,6 +46,7 @@ class LoginView extends StatelessWidget {
               label: 'Password',
               hintText: 'Enter password',
               obscureText: true,
+              minLines: 4,
             ),
             const Gap(21),
             InkWell(

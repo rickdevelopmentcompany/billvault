@@ -4,6 +4,7 @@ import 'package:volex/utils/app_colors.dart';
 import 'package:volex/views/profile/change_language.dart';
 import 'package:volex/views/profile/change_password.dart';
 import 'package:volex/views/profile/change_pin.dart';
+import 'package:volex/views/profile/withdrawal_2fa.dart';
 
 class SettingView extends StatelessWidget {
   const SettingView({super.key});
@@ -62,10 +63,20 @@ class SettingView extends StatelessWidget {
                   child: settingWidget(context, title: 'Change Language'),
                 ),
                 const Gap(15),
-                settingWidget(context, title: 'Withdrawal 2FA', isSwitch: true),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (_) => const Withdrawal2FA(),
+                    ));
+                  },
+                  child: settingWidget(
+                    context,
+                    title: 'Withdrawal 2FA',
+                    isSwitch: true,
+                  ),
+                ),
               ],
             ),
-            const Gap(36),
           ],
         ),
       ),

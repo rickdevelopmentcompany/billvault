@@ -4,22 +4,31 @@ import 'package:gap/gap.dart';
 import 'package:volex/utils/app_colors.dart';
 import 'package:volex/utils/button.dart';
 
-class ChangeLanguageView extends StatelessWidget {
+class ChangeLanguageView extends StatefulWidget {
   const ChangeLanguageView({super.key});
 
+  @override
+  State<ChangeLanguageView> createState() => _ChangeLanguageViewState();
+}
+
+class _ChangeLanguageViewState extends State<ChangeLanguageView> {
+  int selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
     final langs = [
       {'img': 'arabic', 'lang': 'Arabic'},
       {'img': 'us', 'lang': 'English'},
       {'img': 'hindi', 'lang': 'Hindi'},
+      {'img': 'french', 'lang': 'French'},
+      {'img': 'german', 'lang': 'German'},
+      {'img': 'port', 'lang': 'Portuguese'},
+      {'img': 'turk', 'lang': 'Turkish'},
     ];
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
               Gap(MediaQuery.of(context).padding.top + 24),
@@ -45,15 +54,22 @@ class ChangeLanguageView extends StatelessWidget {
                 spacing: 16,
                 runSpacing: 16,
                 children: List.generate(langs.length, (index) {
-                  return languageTile(
-                    context,
-                    img: langs[index]['img'] ?? '',
-                    lang: langs[index]['lang'] ?? '',
-                    isSelected: index == 0,
+                  return InkWell(
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                    },
+                    child: languageTile(
+                      context,
+                      img: langs[index]['img'] ?? '',
+                      lang: langs[index]['lang'] ?? '',
+                      isSelected: index == selectedIndex,
+                    ),
                   );
                 }),
               ),
-              const Spacer(),
+              const Gap(24),
               primaryButton(
                 context,
                 title: 'Save',

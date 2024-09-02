@@ -7,11 +7,13 @@ class SuccessView extends StatelessWidget {
   final String? content;
   final String? buttonText;
   final Widget? next;
+  final Widget? secondaryLocation;
   const SuccessView({
     super.key,
     this.content,
     this.buttonText,
     this.next,
+    this.secondaryLocation,
   });
 
   @override
@@ -58,19 +60,39 @@ class SuccessView extends StatelessWidget {
                 ),
               ],
             ),
-            Container(
-              margin: const EdgeInsets.only(bottom: 38),
-              child: primaryButton(context, title: buttonText ?? 'Go to Home',
+            // const Spacer(),
+            Column(
+              children: [
+                if (secondaryLocation != null) ...[
+                  primaryButton(
+                    context,
+                    title: 'View Receipt',
+                    onTap: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (_) => secondaryLocation!,
+                        ),
+                      );
+                    },
+                  ),
+                  const Gap(21),
+                ],
+                primaryButton(
+                  context,
+                  title: buttonText ?? 'Go to Home',
                   onTap: () {
-                if (next == null) {
-                  Navigator.of(context).pop();
-                  return;
-                }
-                Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (_) => next!,
-                ));
-              }),
-            ),
+                    if (next == null) {
+                      Navigator.of(context).pop();
+                      return;
+                    }
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      builder: (_) => next!,
+                    ));
+                  },
+                ),
+                Gap(MediaQuery.of(context).padding.bottom + 24),
+              ],
+            )
           ],
         ),
       ),
