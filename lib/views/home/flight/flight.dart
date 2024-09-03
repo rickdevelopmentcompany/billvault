@@ -409,6 +409,7 @@ Widget passengerRow(
                 },
                 child: Container(
                   decoration: BoxDecoration(
+                    color: Colors.white,
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: AppColors.primaryColor,
@@ -433,6 +434,7 @@ Widget passengerRow(
                 onTap: onTap,
                 child: Container(
                   decoration: BoxDecoration(
+                    color: Colors.white,
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: AppColors.primaryColor,

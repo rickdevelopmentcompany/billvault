@@ -127,7 +127,10 @@ Widget essentialWidget(BuildContext context,
         decoration: BoxDecoration(
           color: Colors.white,
           boxShadow: [
-            BoxShadow(spreadRadius: 2, color: Colors.black.withOpacity(.2)),
+            BoxShadow(
+              spreadRadius: 2,
+              color: Colors.black.withOpacity(.2),
+            ),
           ],
           borderRadius: BorderRadius.circular(8),
         ),
