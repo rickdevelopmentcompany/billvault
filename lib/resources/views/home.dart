@@ -1,0 +1,135 @@
+import 'package:billvaoit/resources/views/virtual_dollar_card/card_details_view.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:gap/gap.dart';
+
+import '../../app/Models/user/User.dart';
+import '../../app/http/controllers/deposit_controller.dart';
+import '../../app/http/controllers/live_chat_controller.dart';
+import '../../app/http/controllers/user_controller.dart';
+import '../../app/http/controllers/wallet_controller.dart';
+import '../../routes/routes.dart';
+import '../utils/app_colors.dart';
+import '../widgets/usable_sidebar.dart';
+import 'home/dashboard.dart';
+import 'profile/profile.dart';
+import 'virtual_dollar_card/virtual_dollar_card.dart';
+import 'wallet/wallet.dart';
+import 'package:get/get.dart';
+
+class Home extends StatefulWidget {
+  const Home({super.key});
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  int _selectedIndex = 0;
+  bool isVerified = true;
+
+  @override
+  void initState() {
+    super.initState();
+    // Assuming `User().isKYCVerified` is a synchronous check, no need for setState.
+    isVerified = User().isKYCVerified;
+  }
+
+  List<Map<String, dynamic>> get _navItems => [
+    {'label': 'Home', 'svg': 'assets/svgs/home_off.svg', 'widget': const DashboardView()},
+    {'label': 'Wallet', 'svg': 'assets/svgs/wallet.svg', 'widget': const WalletView()},
+    {
+      'label': 'Virtual Card',
+      'svg': 'assets/svgs/card.svg',
+      'widget':  const VirtualDollarCard()
+    },
+    {'label': 'Profile', 'svg': 'assets/svgs/person.svg', 'widget': const ProfileView()},
+  ];
+
+  void _onMenuItemSelected(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    Navigator.of(context).pop(); // Close the sidebar after selecting
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final WalletController walletController = Get.put(WalletController());
+    walletController.fetchResponse();
+    Get.put(LiveChatController());
+    Get.put(UserController());
+    final DepositController depositController  = Get.put(DepositController(user: User()));
+    depositController.fetchResponse("deposit_methods",WebRoutes.depositMethods);
+    return Scaffold(
+      body: _navItems[_selectedIndex]['widget'],
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        height: 74,
+        decoration: const BoxDecoration(
+          color: AppColors.whiteColor,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: List.generate(_navItems.length, (index) {
+            final selected = index == _selectedIndex;
+            return InkWell(
+              splashColor: Colors.transparent,
+              onTap: () {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: Column(
+                  children: [
+                    Flexible(
+                      child: Stack(
+                        children: [
+                          SvgPicture.asset(
+                            _navItems[index]['svg'],
+                            colorFilter: ColorFilter.mode(
+                              selected
+                                  ? AppColors.primaryColor
+                                  : AppColors.iconGreyColor2,
+                              BlendMode.srcIn,
+                            ),
+                          ),
+                          if (selected)
+                            Positioned(
+                              bottom: 0,
+                              right: 0,
+                              left: 0,
+                              top: 0,
+                              child: SvgPicture.asset(
+                                'assets/svgs/on_home.svg',
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                    const Gap(8),
+                    Text(
+                      _navItems[index]['label'],
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: selected
+                            ? AppColors.primaryColor
+                            : AppColors.iconGreyColor2,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          }),
+        ),
+      ),
+    );
+  }
+}

@@ -1,0 +1,80 @@
+{
+    "remark": "login_success",
+    "status": "success",
+    "message": {
+        "success": [
+            "Login successfully"
+        ]
+    },
+    "data": {
+        "user": {
+            "id": 1,
+            "company_name": null,
+            "firstname": "Nwachukwu",
+            "lastname": "Patrick",
+            "username": "rickdeprogrammer",
+            "email": "rickdeprogrammer@gmail.com",
+            "country_code": "NG",
+            "mobile": "23409069138338",
+            "ref_by": 0,
+            "balance": "0.00000000",
+            "image": null,
+            "address": {
+                "country": "Nigeria",
+                "address": "ajah lagos",
+                "state": "Lagos",
+                "zip": "435101",
+                "city": "island"
+            },
+            "status": 1,
+            "kyc_data": null,
+            "kv": 0,
+            "ev": 1,
+            "sv": 1,
+            "profile_complete": 1,
+            "ver_code_send_at": null,
+            "ts": 0,
+            "tv": 1,
+            "tsc": null,
+            "ban_reason": null,
+            "created_at": "2024-09-11T01:53:05.000000Z",
+            "updated_at": "2024-09-11T01:53:16.000000Z"
+        },
+        "access_token": "1|lOSEg5fQ1NPAzYGjWmiOo6ij2gSRYe8OVl7f6G6A",
+        "token_type": "Bearer"
+    }
+}
+
+___________________________________
+registration
+_____________________________________
+
+
+
+{
+    "remark": "validation_error",
+    "status": "error",
+    "message": {
+        "error": [
+            "The email field is required.",
+            "The mobile field is required.",
+            "The password field is required.",
+            "The username field is required.",
+            "The mobile code field is required.",
+            "The country code field is required.",
+            "The country field is required.",
+            "The agree field is required."
+        ]
+    }
+}
+
+
+{
+    "remark": "validation_error",
+    "status": "error",
+    "message": {
+        "error": [
+            "The username field is required."
+        ]
+    }
+}
