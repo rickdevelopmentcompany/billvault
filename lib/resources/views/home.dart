@@ -1,5 +1,9 @@
+import 'package:billvaoit/app/http/controllers/pin_controller.dart';
 import 'package:billvaoit/resources/views/virtual_dollar_card/card_details_view.dart';
+import 'package:billvaoit/resources/widgets/usable_loading.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
@@ -10,7 +14,6 @@ import '../../app/http/controllers/user_controller.dart';
 import '../../app/http/controllers/wallet_controller.dart';
 import '../../routes/routes.dart';
 import '../utils/app_colors.dart';
-import '../widgets/usable_sidebar.dart';
 import 'home/dashboard.dart';
 import 'profile/profile.dart';
 import 'virtual_dollar_card/virtual_dollar_card.dart';
@@ -27,13 +30,46 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int _selectedIndex = 0;
   bool isVerified = true;
+  bool isConnected = true;
+  late WalletController walletController = Get.put(WalletController());
+  late DepositController depositController  = Get.put(DepositController(user: User()));
+  late UserController userController = Get.put(UserController());
+  late PinController pinController = Get.put(PinController());
 
   @override
   void initState() {
     super.initState();
+    Get.put(LiveChatController());
+    laodDashboard ();
     // Assuming `User().isKYCVerified` is a synchronous check, no need for setState.
     isVerified = User().isKYCVerified;
+    checkConnectivity();
   }
+
+  Future<void> laodDashboard () async{
+  await walletController.fetchResponse();
+  await depositController.fetchResponse("deposit_methods",WebRoutes.depositMethods);
+  // await pinController.initPin();
+ userController.isLoading.value = false;
+
+  }
+
+  Future<void> checkConnectivity() async {
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.none) {
+        setState(() {
+          isConnected = false;
+          print("No Internet Connection");
+        });
+      } else {
+        setState(() {
+          isConnected = true;
+          print("Connected to the Internet");
+        });
+      }
+    } as void Function(List<ConnectivityResult> event)?);
+  }
+
 
   List<Map<String, dynamic>> get _navItems => [
     {'label': 'Home', 'svg': 'assets/svgs/home_off.svg', 'widget': const DashboardView()},
@@ -55,14 +91,24 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    final WalletController walletController = Get.put(WalletController());
-    walletController.fetchResponse();
-    Get.put(LiveChatController());
-    Get.put(UserController());
-    final DepositController depositController  = Get.put(DepositController(user: User()));
-    depositController.fetchResponse("deposit_methods",WebRoutes.depositMethods);
+    laodDashboard ();
     return Scaffold(
-      body: _navItems[_selectedIndex]['widget'],
+      body:Obx((){
+        return  isConnected
+            ?  userController.isLoading.value ?  const UsableLoading() : _navItems[_selectedIndex]['widget']
+            : Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const Icon(Icons.signal_wifi_off, size: 50),
+              Text(
+                "No Internet Connection",
+                style: TextStyle(fontSize: 24.sp),
+              ),
+            ],
+          ),
+        );
+      }),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.symmetric(horizontal: 4),
         height: 74,
@@ -133,3 +179,4 @@ class _HomeState extends State<Home> {
     );
   }
 }
+

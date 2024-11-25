@@ -129,35 +129,35 @@ class SignupController extends AuthController {
     return null;
   }
 
-  Future<void> signup() async {
-    // log('${emailController.text}, ${passwordController.text}');
-    if (signupFormKey.currentState!.validate()) {
-      try {
-        var data = <String, String>{
-          'username': usernameController.text,
-          'email': emailController.text,
-        };
-        if (ApiRoutes.loginWithPassword) {
-          data = {
-            ...data,
-            'password': passwordController.text,
-            'confirmPassword': confirmPasswordController.text,
-          };
-        }
-        await signUp(data);
-        if (ApiRoutes.loginWithPassword) {
-          signIn(usernameController.text, passwordController.text);
-        }
-      } catch (err, _) {
-        // message = 'There is an issue with the app during request the data, '
-        //         'please contact admin for fixing the issues ' +
-
-        passwordController.clear();
-        confirmPasswordController.clear();
-        rethrow;
-      }
-    } else {
-      throw Exception('An error occurred, invalid inputs value');
-    }
-  }
+  // Future<void> signup() async {
+  //   // log('${emailController.text}, ${passwordController.text}');
+  //   if (signupFormKey.currentState!.validate()) {
+  //     try {
+  //       var data = <String, String>{
+  //         'username': usernameController.text,
+  //         'email': emailController.text,
+  //       };
+  //       if (ApiRoutes.loginWithPassword) {
+  //         data = {
+  //           ...data,
+  //           'password': passwordController.text,
+  //           'confirmPassword': confirmPasswordController.text,
+  //         };
+  //       }
+  //       await signUp(data);
+  //       if (ApiRoutes.loginWithPassword) {
+  //         signIn(usernameController.text, passwordController.text);
+  //       }
+  //     } catch (err, _) {
+  //       // message = 'There is an issue with the app during request the data, '
+  //       //         'please contact admin for fixing the issues ' +
+  //
+  //       passwordController.clear();
+  //       confirmPasswordController.clear();
+  //       rethrow;
+  //     }
+  //   } else {
+  //     throw Exception('An error occurred, invalid inputs value');
+  //   }
+  // }
 }

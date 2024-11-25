@@ -145,9 +145,9 @@ class AuthApiService extends ApiService {
 
   bool sessionIsExpired() {
     int currentTimestamp = HelperMixin.getTimestamp();
-    printInfo(
-        info:
-        'Expired in: ${credentials != null ? (credentials!.expiration!.millisecondsSinceEpoch / 1000 - ApiRoutes.sessionTimeoutThreshold - currentTimestamp) / 60 : 0} mins -- isExceeded: ${credentials!.isExpired} and Can Refresh : ${credentials!.canRefresh}');
+    // printInfo(
+    //     info:
+    //     'Expired in: ${credentials != null ? (credentials!.expiration!.millisecondsSinceEpoch / 1000 - ApiRoutes.sessionTimeoutThreshold - currentTimestamp) / 60 : 0} mins -- isExceeded: ${credentials!.isExpired} and Can Refresh : ${credentials!.canRefresh}');
     if (sessionIsEmpty()) return true;
 
     return credentials!.isExpired;
@@ -159,12 +159,12 @@ class AuthApiService extends ApiService {
         'name': data['username'],
         'mail': data['email'],
       };
-      if (ApiRoutes.signupWithPassword) {
-        body['pass'] = {
-          'pass1': data['password'],
-          'pass2': data['confirmPassword']
-        };
-      }
+      // if (ApiRoutes.signupWithPassword) {
+      //   body['pass'] = {
+      //     'pass1': data['password'],
+      //     'pass2': data['confirmPassword']
+      //   };
+      // }
       return post(signUpUrl, body);
     } catch (e) {
       // printLog(e);

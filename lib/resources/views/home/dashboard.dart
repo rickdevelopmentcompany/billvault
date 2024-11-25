@@ -1,30 +1,34 @@
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:billvaoit/app/http/controllers/live_chat_controller.dart';
+import 'package:pull_to_refresh_flutter3/pull_to_refresh_flutter3.dart';
 import 'package:billvaoit/app/http/controllers/user_controller.dart';
+import 'package:billvaoit/resources/views/home/add_money/add_money.dart';
+import 'package:billvaoit/resources/views/home/crypto/crypto_exchange_screen.dart';
 import 'package:billvaoit/resources/views/home/crypto/crypto_view.dart';
 import 'package:billvaoit/resources/views/home/sell_giftcard/sell_giftcard.dart';
 import 'package:billvaoit/resources/views/home/transfer/transfer_view.dart';
-import 'package:billvaoit/resources/views/home/withdrawal/withdrawal_by_card_view.dart';
+import 'package:billvaoit/resources/widgets/usable_loading.dart';
 import 'package:billvaoit/routes/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_tawk/flutter_tawk.dart';
 import 'package:gap/gap.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:intl/intl.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../app/Models/user/User.dart';
 import '../../utils/app_colors.dart';
+import '../../widgets/transaction_card.dart';
 import '../../widgets/usable_dashboard_slider.dart';
 import '../../widgets/balance_card.dart';
 import '../../widgets/dashboard_topbar.dart';
 import '../../widgets/useable_dashboard_card.dart';
-import '../website_viewer.dart';
-import 'add_money/add_money.dart';
 import 'bills_payment/bills_payment.dart';
 import 'buy_giftcard/buy_giftcard.dart';
-import 'flight/flight.dart';
 
 class DashboardView extends StatefulWidget {
   const DashboardView({super.key});
@@ -34,20 +38,61 @@ class DashboardView extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardView> {
-  bool _isBalanceVisible = true;
+  late UserController userController;
+  late GetStorage storage = GetStorage();
+  late var depositHistory = [];
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    init();
+  }
+
+  Future<void> init() async{
+    Get.delete<UserController>();
+    userController = Get.put(UserController());
+      userController.isLoading.value = true;
+    var history = await userController.getDepositHistory();
+    print('deposit histories: ${userController.depositHistory}');
+    await Future.delayed(const Duration(seconds: 5));
+    userController.isLoading.value = false;
+    await Future.delayed(const Duration(seconds: 3));
+  }
+
+
+  RefreshController _refreshController =
+  RefreshController(initialRefresh: false);
+
+  void _onRefresh() async{
+    // monitor network fetch
+    // await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use refreshFailed()
+    userController.isLoading.value = true;
+    init();
+    await Future.delayed(const Duration(milliseconds: 1000));
+    userController.isLoading.value = false;
+    _refreshController.refreshCompleted();
+  }
+
+  void _onLoading() async{
+    // monitor network fetch
+    await Future.delayed(Duration(milliseconds: 1000));
+    // if failed,use loadFailed(),if no data return,use LoadNodata()
+    // items.add((items.length+1).toString());
+    if(mounted)
+      setState(() {
+
+      });
+    _refreshController.loadComplete();
+  }
 
   @override
   Widget build(BuildContext context) {
-    LiveChatController liveChatController = Get.put(LiveChatController());
-    UserController userController = Get.put(UserController());
-    GetStorage storage = GetStorage();
+    // depositHistory = storage.read('deposit_history')[0]['history']! ?? '';
+    depositHistory = userController.depositHistory;
+    // userController.getWithdrawalHistory();
     var data = json.decode(storage.read('dashboard'));
-    // data['data'].forEach((k,v) {
-    //   // print("\n");;
-    //     print("$k : $v");
-    // print("\n");
-    // });
     final _controller = SidebarXController(selectedIndex: 0, extended: true);
     final _key = GlobalKey<ScaffoldState>();
     User user = new User();
@@ -97,29 +142,39 @@ class _DashboardScreenState extends State<DashboardView> {
             ],
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              Expanded(
-                child: SingleChildScrollView(
-                  child: Column(
+        body:  Obx((){
+          return userController.isLoading.value ? const UsableLoading() :
+          SmartRefresher(
+              enablePullDown: true,
+              enablePullUp: true,
+              header: const WaterDropHeader(),
+              controller: _refreshController,
+              onRefresh: _onRefresh,
+              onLoading: _onLoading,
+              child:  ListView(
+                
                     children: [
 
                       // const Gap(24),
-                      BalanceCard(balance:data['data']['total_site_balance'] ?? 0.00),
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: BalanceCard(balance:data['data']['total_site_balance'] ?? 0.00),
+                      ),
                       const Gap(13),
-                      Row(
+                      Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child:  Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
                             flex: 4,
                             child: InkWell(
                               onTap: () {
-                                Get.snackbar("Message", 'Coming Soon...');
+                                // Get.snackbar("Message", 'Coming Soon...');
                                 // Navigator.of(context).push(MaterialPageRoute(
                                 //   builder: (_) => const TransferView(),
                                 // ));
+                                Get.to(const AddMoney());
                               },
                               child: Container(
                                 alignment: Alignment.center,
@@ -129,7 +184,7 @@ class _DashboardScreenState extends State<DashboardView> {
                                 ),
                                 height: 35,
                                 child: Text(
-                                  'Add Money',
+                                  'Deposit',
                                   style:
                                   Theme
                                       .of(context)
@@ -153,8 +208,8 @@ class _DashboardScreenState extends State<DashboardView> {
                             child: InkWell(
                               onTap: () =>
                               {
-                                Get.snackbar("Message", 'Coming Soon...')
-                                // Get.to(const CryptoView(), arguments: ['']),
+                                // Get.snackbar("Message", 'Coming Soon...')
+                                Get.to( CryptoView(), arguments: ['']),
                                 // Get.to(WebsiteViewer(url: WebRoutes.tawktoLink,title: 'Trade Crypto',))
                               },
                               child: Container(
@@ -166,7 +221,7 @@ class _DashboardScreenState extends State<DashboardView> {
                                 height: 35,
 
                                 child: Text(
-                                  'Trade Crypto',
+                                  'Exchange Crypto',
                                   style:
                                   Theme
                                       .of(context)
@@ -182,35 +237,21 @@ class _DashboardScreenState extends State<DashboardView> {
                             ),
                           ),
                         ],
-                      ),
-                      const Gap(33),
-                      const Gap(7),
-                      // const Column(
-                      //   children: [
-                      //     SingleChildScrollView(
-                      //       scrollDirection: Axis.horizontal,
-                      //       child: Row(
-                      //         children: [
-                      //           UsableShortcut(title: 'Flight', icon: Icons.flight, view: FlightReservation()),
-                      //           UsableShortcut(title: 'Crypto', icon: Icons.currency_bitcoin, view: CryptoView()),
-                      //           UsableShortcut(title: 'GiftCard', icon: Icons.card_giftcard_outlined, view: BuyGiftcardView()),
-                      //           UsableShortcut(title: 'Bill', icon: Icons.lightbulb_circle_outlined, view: BillsPaymentView()),
-                      //           UsableShortcut(title: 'Card', icon: Icons.credit_card, view: VirtualDollarCard()),
-                      //           UsableShortcut(title: 'Hotel', icon: Icons.hotel, view: HotelBooking()),
-                      //         ],
-                      //       ),
-                      //     ),
-                      //   ],
-                      //  ),
-                      const Gap(13),
-                      const UsableDashboardSlider(imagePaths: [
+                      )),
+                      const Gap(40),
+                      Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: const UsableDashboardSlider(imagePaths: [
                         'assets/images/img_3.png',
                         'assets/images/dash_image.png',
                         'assets/images/img_2.png',
-                      ]),
+                      ])
+                        ),
 
                       const Gap(16),
-                      Wrap(
+                      Center(
+                          // padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: Wrap(
                         spacing: 14,
                         runSpacing: 14,
                         children: [
@@ -228,10 +269,22 @@ class _DashboardScreenState extends State<DashboardView> {
                             ),
                           ),
                           InkWell(
-                              onTap: () =>
-                              {
-                                // Get.to(WebsiteViewer(url: WebRoutes.tawktoLink,title: 'Sell Giftcard',))
-                              const SellGiftcardView()
+                              onTap: () async {
+                                Get.to(const SellGiftcardView());
+                                // var contact = "2348111218116";
+                                // var androidUrl = "whatsapp://send?phone=$contact&text=Hi, I want to Sell Giftcard";
+                                // var iosUrl = "https://wa.me/$contact?text=${Uri.parse('Hi, I want to Sell Giftcard')}";
+                                //
+                                // try{
+                                //   if(Platform.isIOS){
+                                //     await launchUrl(Uri.parse(iosUrl));
+                                //   }
+                                //   else{
+                                //     await launchUrl(Uri.parse(androidUrl));
+                                //   }
+                                // } on Exception{
+                                //   EasyLoading.showError('WhatsApp is not installed.');
+                                // }
                               },
                               child: const UsableDashboardCard(
                                 backgroundColor: Color(0xBFF7A9B7),
@@ -254,84 +307,80 @@ class _DashboardScreenState extends State<DashboardView> {
                           InkWell(
                               onTap: () =>
                               {
-                                // Get.to(const FlightReservation())
-                                Get.snackbar("Message", 'Coming Soon...')
+                                Get.to( ExchangeScreen())
+                                // Get.snackbar("Message", 'Coming Soon...')
                               },
                               child: const UsableDashboardCard(
                                 backgroundColor: Color(0xFF83EFFF),
-                                title: 'Flight Reservation',
+                                title: 'Exchange Crypto',
                                 iconBackgroundColor: Color(0xFFD90429),
                                 icon: 'assets/svgs/flight.svg',)
                           ),
 
                         ],
-                      ),
+                      )
+          ),
 
 
                       const Gap(16),
-                      const Row(
+                      Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('Transaction History'),
-                          InkWell(
-                            child: Text('See all'),
-                          )
+                          // InkWell(
+                          //   child: Text('See all'),
+                          // )
                         ],
-                      ),
+                      )
+          ),
                       const Gap(26),
-                      const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('No Transaction')
-                        ],
-                      ),
 
-                      Gap(MediaQuery
+                      Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                          child: SingleChildScrollView(
+                      child: Column(
+                        children: List.generate(depositHistory.length, (index){
+                          var trx = depositHistory[index]['history'][0];
+                          print(trx);
+                          String time = DateFormat('hh:mm a').format(DateTime.parse('${trx['created_at']}'));
+                          String formatted = DateFormat('dd MMM yyyy').format(DateTime.parse('${trx['created_at']}'));
+                          var val = trx['detail'][0];
+                          return Column(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Gap(10),
+                                TransactionCard(
+                                    title: '${trx['method_currency']} Deposit',
+                                date: '$formatted',
+                                bankInfo: '$val',
+                                iconPath: 'assets/images/baby.png',
+                                status: '${trx['status']}',
+                                time: '$time',
+                                transactionId: '${trx['trx']}',
+                                amount: '2000'),
+                                const Gap(10),
+                              ]
+                          );
+                        }
+                        ).toList(),
+                      ),
+                    )
+                        ),
+                   Gap(MediaQuery
                           .of(context)
                           .padding
                           .bottom + 18),
                     ],
-                  ),
-                ),
-              ),
-              // Visibility(
-              //     visible: liveChatController.isLiveChatActive.value,
-              //     child: SizedBox( height: MediaQuery
-              //             .of(context)
-              //             .size
-              //             .height * 0.6,
-              //         width: MediaQuery
-              //             .of(context)
-              //             .size
-              //             .width * 0.6,
-              //         child: WebsiteViewer(url: WebRoutes.tawktoLink,)
-              //     )),
-              Visibility(
-                  visible: false,
-                  child: SizedBox(
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.6,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.6,
-                    child: Tawk(
-                      directChatLink: WebRoutes.tawktoLink,
-                      visitor: TawkVisitor(
-                        name: User().fullName,
-                        email: User().email,
-                      ),
-                    ),
-                  )),
-            ],
           ),
-        ),
+          );
+                  }),
       );
     // });
   }
 }
+
 
 Widget dashCard(BuildContext context,String balance) => Container(
       padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 12),

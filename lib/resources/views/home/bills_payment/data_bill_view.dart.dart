@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../../app/http/controllers/bill_payments.dart';
 import '../../../utils/app_colors.dart';
@@ -18,20 +19,24 @@ class BuyDataView extends StatefulWidget {
 
 class BuyDataViewtate extends State<BuyDataView> {
   late TextEditingController ctrl;
+  late TextEditingController phone_controller;
   bool viewDetails = true;
   BillPaymentsController billPaymentsController = Get.put(BillPaymentsController());
   List<Map<String, dynamic>> bundles = [];
+  dynamic data_bundle;
 
   @override
   void initState() {
     super.initState();
-    ctrl = TextEditingController(text: '₦');
+    ctrl = TextEditingController();
+    phone_controller = TextEditingController();
     fetchDataBundles();
   }
 
   @override
   void dispose() {
-    ctrl.dispose();
+    // ctrl.dispose();
+    // phone_controller.dispose();
     super.dispose();
   }
 
@@ -40,15 +45,21 @@ class BuyDataViewtate extends State<BuyDataView> {
     BillPaymentsController billPaymentsController = Get.put(BillPaymentsController());
 
     // Await the future to get the actual data
-    bundles = await billPaymentsController.getataBundles();
-
+    bundles = await billPaymentsController.getdataBundles();
+    billPaymentsController.dataamount.value = '0';
     // Now you can use the `bundles` list
-    print(bundles);
+    // print(bundles);
+    // return bundles;
   }
 
 
   @override
   Widget build(BuildContext context) {
+    GetStorage storage  = GetStorage();
+    print('======== BUNDLES =======================================================');
+    print(bundles);
+    print('======== BUNDLES =======================================================');
+    // fetchDataBundles();
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -120,19 +131,19 @@ class BuyDataViewtate extends State<BuyDataView> {
                                       ),
                                     ),
                                     const Gap(30),
-                                    networkWidget(context, img: 'mtn', name: 'MTN', action: ()=> {billPaymentsController.setNetworkLogo('mtn'), Navigator.pop(context)}),
+                                    networkWidget(context, img: 'mtn', name: 'MTN', action: ()=> {billPaymentsController.setNetworkLogo('mtn'),billPaymentsController.selectedDataBundle.value = '',fetchDataBundles(), Navigator.pop(context)}),
                                     const Gap(16),
                                     const Divider(color: AppColors.greyBorderColor),
                                     const Gap(16),
-                                    networkWidget(context, img: 'airtel', name: 'Airtel', action: ()=> {billPaymentsController.setNetworkLogo('airtel'), Navigator.pop(context)}),
+                                    networkWidget(context, img: 'airtel', name: 'Airtel', action: ()=> {billPaymentsController.setNetworkLogo('airtel'),billPaymentsController.selectedDataBundle.value = '',fetchDataBundles(), Navigator.pop(context)}),
                                     const Gap(16),
                                     const Divider(color: AppColors.greyBorderColor),
                                     const Gap(16),
-                                    networkWidget(context, img: 'glo', name: 'GLO', action: ()=>{ billPaymentsController.setNetworkLogo('glo'), Navigator.pop(context)}),
+                                    networkWidget(context, img: 'glo', name: 'GLO', action: ()=>{ billPaymentsController.setNetworkLogo('glo'),billPaymentsController.selectedDataBundle.value = '',fetchDataBundles(), Navigator.pop(context)}),
                                     const Gap(16),
                                     const Divider(color: AppColors.greyBorderColor),
                                     const Gap(16),
-                                    networkWidget(context, img: '9mobile', name: '9Mobile', action: ()=> { billPaymentsController.setNetworkLogo('9mobile'), Navigator.pop(context)}),
+                                    networkWidget(context, img: '9mobile', name: '9Mobile', action: ()=> { billPaymentsController.setNetworkLogo('9mobile'),billPaymentsController.selectedDataBundle.value = '',fetchDataBundles(), Navigator.pop(context)}),
                                     const Gap(36),
                                   ],
                                 ),
@@ -155,6 +166,7 @@ class BuyDataViewtate extends State<BuyDataView> {
                       Expanded(
                         child: TextFormField(
                           onTap: () {},
+                          controller: phone_controller,
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             contentPadding: EdgeInsets.symmetric(horizontal: 4),
@@ -170,89 +182,139 @@ class BuyDataViewtate extends State<BuyDataView> {
                   ),
                 ),
                 const Gap(38),
-                CustomTextfield(
-                  label: 'Select Bundle',
-                  hintText: 'Select Bundles',
-                  keyboardType: TextInputType.number,
-                  trailingSvg: 'dropdown',
-                  readOnly: true,
-                  callback: () async {
-                    await showModalBottomSheet(
-                      context: context,
-                      builder: (_) => IntrinsicHeight(
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(
-                            children: [
-                              const Gap(40),
-                              InkWell(
-                                onTap: Navigator.of(context).pop,
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                const Gap(30),
+                // Text(bundles.toString()
+                // ),
+            Obx(() {
+              return SingleChildScrollView(
+                child: Column( // Wrap the content in a Column to allow vertical scrolling
+                  children: [
+                    CustomTextfield(
+                      label: 'Select Bundle',
+                      hintText: billPaymentsController.selectedDataBundle.value != ''
+                          ? billPaymentsController.selectedDataBundle.value
+                          : "Select Data bundle",
+                      keyboardType: TextInputType.number,
+                      trailingSvg: 'dropdown',
+                      readOnly: true,
+                      callback: () async {
+                        await showModalBottomSheet(
+                          context: context,
+                          builder: (_) => IntrinsicHeight(
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(horizontal: 20),
+                              width: MediaQuery.of(context).size.width,
+                              child: SingleChildScrollView(
+                                child: Column(
                                   children: [
-                                    const SizedBox(),
-                                    Text(
-                                      'Select Bundle',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .labelLarge
-                                          ?.copyWith(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 18,
+                                    const Gap(40),
+                                    InkWell(
+                                      onTap: Navigator.of(context).pop,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          const SizedBox(),
+                                          Text(
+                                            'Select Bundle',
+                                            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 18,
+                                            ),
                                           ),
+                                          SvgPicture.asset('assets/svgs/cancel.svg'),
+                                        ],
+                                      ),
                                     ),
-                                    SvgPicture.asset('assets/svgs/cancel.svg'),
+                                    const Gap(20),
+                                    Column(
+                                      children: List.generate(billPaymentsController.dataBundles.length, (index) {
+                                        final bundle = bundles[index];
+                                        return SingleChildScrollView(
+                                            child: Column(
+                                              children: [
+                                                InkWell(
+                                                  onTap: () {
+                                                    print('Selected Bundle: ${bundle['PRODUCT_NAME']} - ${bundle['PRODUCT_ID']}');
+                                                    billPaymentsController.setSelectDataBundle(bundle['PRODUCT_NAME']);
+                                                    data_bundle = bundle;
+                                                    billPaymentsController.dataamount.value = bundle['PRODUCT_ID'].toString();
+                                                    ctrl.text = bundle['PRODUCT_ID'].toString();
+                                                    print('Selected Bundle in Controller: ${billPaymentsController.selectedDataBundle.value}');
+                                                    Navigator.pop(context);
+                                                  },
+                                                  child:SingleChildScrollView(
+                                                     child:  Column(
+                                                        children: [
+                                                          bundleWidget(
+                                                            context,
+                                                            title: bundle['PRODUCT_NAME'] ?? 'Unknown Product',
+                                                            // value: bundle['PRODUCT_ID'] ?? 'Unknown ID',
+                                                            value: ''
+                                                          ),
+                                                          const Gap(16),
+                                                          if (index != bundles.length - 1)
+                                                            const Divider(color: AppColors.greyBorderColor),
+                                                        ],
+                                                      )
+                                                  ),
+                                                )
+                                              ],
+                                            )
+                                        );
+                                      }),
+                                    ),
+                                    const Gap(46),
                                   ],
                                 ),
-                              ),
-                              const Gap(30),
-                              Column(
-                                children: List.generate(bundles.length, (index) {
-                                  final bundle = bundles[index];
-                                  return Column(
-                                    children: [
-                                      bundleWidget(
-                                        context,
-                                        title: bundle['desc'],
-                                        value: bundle['price'],
-                                      ),
-                                      const Gap(16), // Add Gap between widgets
-                                      if (index != bundles.length - 1) // Only add Divider if it's not the last item
-                                        const Divider(
-                                          color: AppColors.greyBorderColor,
-                                        ),
-                                    ],
-                                  );
-                                }),
-                              ),
-                              // const Gap(16),
-                              // const Divider(
-                              //   color: AppColors.greyBorderColor,
-                              // ),
-                              // const Gap(16),
-                              // bundleWidget(
-                              //   context,
-                              //   title: '160MB for 30 days',
-                              //   value: '₦150',
-                              // ),
-                              const Gap(46),
-                            ],
+                              )
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
+                        );
+                      },
+                    ),
+
+                  ],
                 ),
-                const Spacer(),
+              );
+            }),
+
+            Obx((){
+              return
+                CustomTextfield(
+                  // ctrl: ctrl,
+                  hintText: '₦${billPaymentsController.dataamount.value.toString()}.00',
+                  readOnly: true,
+                );
+            }),
+            const Spacer(),
                  primaryButton(context,
-                     color: AppColors.primaryColor, title: 'Confirm', onTap: () async {
-                  await showModalBottomSheet(
-                      context: context,
-                      builder: (context) {
-                        return const PinBottomsheetView();
-                      });
+                     color: AppColors.primaryColor, title: 'Confirm',
+                     onTap: () async {
+                   print(ctrl.text);
+                   if(phone_controller.text.isEmpty ) {
+                     Get.snackbar('Error', 'Enter a valid Phone number',snackPosition: SnackPosition.BOTTOM,
+                       backgroundColor: Colors.red, colorText: Colors.white,
+                       icon: const Icon(Icons.warning_amber_rounded, color: Colors.white),);
+                   }else if(ctrl.text.isEmpty ) {
+                     Get.snackbar('Error', 'Select a plan',snackPosition: SnackPosition.BOTTOM,
+                       backgroundColor: Colors.red, colorText: Colors.white,
+                       icon: const Icon(Icons.warning_amber_rounded, color: Colors.white),);
+                   }else {
+                     storage.write('buy_data', {
+                       'bundle': data_bundle,
+                       'amount': ctrl.text,
+                       'phone_number': phone_controller.text,
+                       'network': billPaymentsController.networkLogo
+                     });
+                     print(storage.read('buy_data'));
+
+                     await showModalBottomSheet(
+                       context: context,
+                       builder: (context) {
+                         return const PinBottomsheetView(action: 'data',);
+                       },
+                     );
+                   }
                 }),
                 const Gap(36),
               ],
@@ -280,30 +342,41 @@ Widget networkWidget(BuildContext context, {required String name, required Strin
     ],
   ),
 );
-
 Widget bundleWidget(
-  BuildContext context, {
-  required String title,
-  required String value,
-}) =>
+    BuildContext context, {
+      required String title,
+      required String value,
+    }) =>
     Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          title,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-            fontFamily: 'Roboto'
+        Expanded( // To ensure the text fits within available space
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal, // Use Axis.horizontal for horizontal scrolling
+            child: Text(
+              title,
+              style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  fontWeight: FontWeight.w400,
+                  fontSize: 13,
+                  fontFamily: 'Roboto'
+
               ),
+              overflow: TextOverflow.ellipsis, // Prevents overflow
+            ),
+          ),
         ),
-        Text(
-          value,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+        const SizedBox(width: 10), // Optional space between title and value
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal, // Use Axis.horizontal for horizontal scrolling
+          child: Text(
+            value,
+            style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 fontWeight: FontWeight.w400,
                 fontSize: 16,
-              fontFamily: 'Roboto'
-              ),
+                fontFamily: 'Roboto'
+            ),
+            overflow: TextOverflow.ellipsis, // Prevents overflow
+          ),
         ),
       ],
     );

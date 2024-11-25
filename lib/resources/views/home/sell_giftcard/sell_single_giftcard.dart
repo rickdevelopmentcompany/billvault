@@ -62,11 +62,11 @@ class SellSingleGiftcardViewState extends State<SellSingleGiftcardView> {
                   ? null
                   : sellGiftCardController.selectedPrice.value,
               hint: Text(
-                'Select Amount',
+                'Select card type',
                 style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
               ),
               isExpanded: true,
-              items: sellGiftCardController.priceList.map((String price) {
+              items: sellGiftCardController.cardType.map((String price) {
                 return DropdownMenuItem<String>(
                   value: price,
                   child: Text(
@@ -174,14 +174,14 @@ class SellSingleGiftcardViewState extends State<SellSingleGiftcardView> {
               enabled: false,
             ),
             const Gap(25),
-            Text(
-              'Redeem instructions',
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                fontWeight: FontWeight.w500,
-                fontSize: 14,
-                color: const Color(0xFF003130),
-              ),
-            ),
+            // Text(
+            //   'Redeem instructions',
+            //   style: Theme.of(context).textTheme.labelLarge?.copyWith(
+            //     fontWeight: FontWeight.w500,
+            //     fontSize: 14,
+            //     color: const Color(0xFF003130),
+            //   ),
+            // ),
             const Spacer(flex: 3),
             primaryButton(context, title: 'Confirm', onTap: () {
               Navigator.of(context).pushReplacement(MaterialPageRoute(

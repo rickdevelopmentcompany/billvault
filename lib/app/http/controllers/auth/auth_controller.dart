@@ -65,12 +65,14 @@ class AuthController extends GetxController {
         };
 
         // Store in GetX variables
-        isLoggedIn.value = true;
         userDetails.value = userData;
-        fetchDashboardData(authData);
+        await fetchDashboardData(authData);
+        isLoggedIn.value = true;
+        // Get.put(UserController());
         return true;
       } else {
-        Get.snackbar("Error", "Invalid credentials", backgroundColor: Colors.red, colorText: Colors.white);
+        Get.snackbar("Error", "Invalid credentials",
+            backgroundColor: Colors.red, colorText: Colors.white);
         return false;
       }
     } catch (e) {
@@ -83,7 +85,7 @@ class AuthController extends GetxController {
 
 
   // Fetch dashboard data
-  void fetchDashboardData(dynamic data) async {
+  Future<void> fetchDashboardData(dynamic data) async {
     isLoading(true); // Start loading
     try {
 
@@ -95,11 +97,7 @@ class AuthController extends GetxController {
       // Store dashboard data in local storage
       storage.write('dashboard', response);
 
-      // Update the observable with parsed data
-      // dashboardData.value = parseDashboardData(response);
 
-      // Show success message
-      // Get.snackbar('Success', 'Dashboard data fetched successfully');
     } catch (error) {
       // Handle errors
       print("Error fetching dashboard data: $error");

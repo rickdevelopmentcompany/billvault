@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';  // For finding the correct directory
 
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -8,10 +10,12 @@ import '../services/api_services.dart';
 
 class UserController extends GetxController {
   // Observables
-  var isLoading = false.obs; // For indicating loading state
+  var isLoading = true.obs; // For indicating loading state
   var userInfoData = {}.obs; // To store user info data
   var dashboardData = {}.obs; // To store dashboard data
   final GetStorage storage = GetStorage(); // Local storage instance
+  late List<Map<String,dynamic>> depositHistory = [];
+  var historySize  = 0.obs;
 
   ApiServices apiServices = ApiServices(); // API service instance
   Map<String, String> headers = <String, String>{}; // Headers for API requests
@@ -55,6 +59,9 @@ class UserController extends GetxController {
     try {
       // API call to get user info
       String response = await apiServices.makeGetRequest(WebRoutes.userInfo, headers);
+      var resp = json.decode(response);
+      storage.write('user_pin', '${resp['data']['user']['user_pin']}');
+      // print('response: ${resp['data']['user']['user_pin']}');
 
       // Optionally store user info in local storage
       storage.write('userInfo', response);
@@ -153,4 +160,41 @@ class UserController extends GetxController {
       isLoading(false); // Stop loading
     }
   }
+
+  Future<List<Map<String, dynamic>>> getDepositHistory() async {
+    this.depositHistory = [];
+    try {
+      // Fetch deposit history data from API
+      var response = await apiServices.makeGetRequest(WebRoutes.depositHistory, headers);
+      var data = json.decode(response);
+      if(data['status'] == 'success') {
+        print(data['status']);
+        this.historySize.value = data['data']['deposits']['total'];
+      //   // Add data to deposit history
+        this.depositHistory.add({
+          'history': data['data']['deposits']['data']
+        });
+        storage.write('deposit_history', this.depositHistory);
+      }
+} catch (e) {
+      print("Error saving deposit history: $e");
+    }
+
+    return this.depositHistory;
+  }
+
+  Future<void> getWithdrawalHistory() async{
+    var response = await apiServices.makeGetRequest(WebRoutes.withdrawHistory, headers);
+    var data = json.decode(response);
+
+    print(data);
+  }
+
+  // Future<void> getExchangeHistory() async{
+  //   var response = await apiServices.makeGetRequest(WebRoutes.lo, headers);
+  //   var data = json.decode(response);
+  //
+  //   print(data);
+  // }
+
 }

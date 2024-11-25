@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../utils/app_colors.dart';
@@ -16,6 +17,7 @@ class OTPVerificationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(GetStorage().read('selfieImagePath'));
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
