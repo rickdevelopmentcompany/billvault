@@ -1,3 +1,4 @@
+import 'package:billvaoit/resources/views/home/bills_payment/betting_view.dart';
 import 'package:billvaoit/resources/views/home/bills_payment/tv_bill_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -89,7 +90,7 @@ class BillsPaymentViewState extends State<BillsPaymentView> {
                   svg: 'betting',
                   title: 'Betting',
                   onTap: () {
-                    Get.to( const AirtimeToCashView());
+                    Get.to( const BettingView());
                   },
                 ),
               ],

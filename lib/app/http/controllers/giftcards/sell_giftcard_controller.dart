@@ -18,6 +18,16 @@ class SellGiftCardController extends GetxController {
     ];
   }
 
+
+  // List of prices based on the selected currency and sender fee
+  List<String> get cardType {
+    return [
+      "Physical Giftcard",
+      "Digital Giftcard"
+    ];
+  }
+
+
   @override
   void onInit() {
     super.onInit();

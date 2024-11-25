@@ -14,24 +14,24 @@ class HomeController extends GetxController {
   RxString sessionTime = RxString('');
   @override
   void onInit() {
-    sessionTime.value = getSessionTime();
+    // sessionTime.value = getSessionTime();
 
     credentails = getcredentials().obs;
 
     super.onInit();
   }
 
-  getSessionTime() {
-    try {
-      int currentTimestamp = HelperMixin.getTimestamp();
-
-      AuthApiService authenticationService = Get.find();
-      var credentials = authenticationService.credentials;
-      return '${credentials != null ? (credentials.expiration!.millisecondsSinceEpoch / 1000 - ApiRoutes.sessionTimeoutThreshold - currentTimestamp) / 60 : 0} mins';
-    } catch (err) {
-      throw Exception('An error occurred when computing Session time');
-    }
-  }
+  // getSessionTime() {
+  //   try {
+  //     int currentTimestamp = HelperMixin.getTimestamp();
+  //
+  //     AuthApiService authenticationService = Get.find();
+  //     var credentials = authenticationService.credentials;
+  //     return '${credentials != null ? (credentials.expiration!.millisecondsSinceEpoch / 1000 - ApiRoutes.sessionTimeoutThreshold - currentTimestamp) / 60 : 0} mins';
+  //   } catch (err) {
+  //     throw Exception('An error occurred when computing Session time');
+  //   }
+  // }
 
   Credentials getcredentials() {
     AuthApiService authenticationService = Get.find();

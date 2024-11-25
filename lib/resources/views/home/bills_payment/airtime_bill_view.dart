@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../../app/http/controllers/bill_payments.dart';
 import '../../../utils/app_colors.dart';
@@ -17,14 +18,19 @@ class BuyAirtimeView extends StatefulWidget {
 }
 
 class BuyAirtimeViewState extends State<BuyAirtimeView> {
-  late TextEditingController ctrl;
+  late TextEditingController ctrl = TextEditingController();
+  late TextEditingController phone_controller = TextEditingController();
+  late GetStorage storage;
+
   bool viewDetails = true;
 
   @override
   void initState() {
     super.initState();
     // ctrl = TextEditingController(text: '₦');
-    ctrl = TextEditingController();
+    ctrl = TextEditingController(text: '₦');
+    phone_controller = TextEditingController();
+    storage = GetStorage();
   }
 
   // @override
@@ -36,7 +42,7 @@ class BuyAirtimeViewState extends State<BuyAirtimeView> {
   @override
   Widget build(BuildContext context) {
     BillPaymentsController billPaymentsController = Get.put(BillPaymentsController());
-
+    var amount = '';
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -131,6 +137,7 @@ class BuyAirtimeViewState extends State<BuyAirtimeView> {
                       Expanded(
                         child: TextFormField(
                           onTap: () {},
+                          controller: phone_controller,
                           keyboardType: TextInputType.number,
                           decoration: const InputDecoration(
                             contentPadding: EdgeInsets.symmetric(horizontal: 4),
@@ -162,12 +169,55 @@ class BuyAirtimeViewState extends State<BuyAirtimeView> {
                 ),
                 const Gap(34),
                 Obx(() {
-                  return CustomTextfield(
-                    label: 'Amount',
-                    hintText: '₦ ${billPaymentsController.airtimeShortcutAmount.value}',
-                    ctrl: ctrl,
-                    keyboardType: TextInputType.number,
-                  );
+                  return
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Amount',
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 16,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        TextFormField(
+                          // onEditingComplete: () {
+                          //   if (ctrl.text.isEmpty) {
+                          //     ctrl.text = billPaymentsController.airtimeShortcutAmount.value.toString();
+                          //   }
+                          // },
+                          // onFieldSubmitted: (val) {
+                          //   if (val.isEmpty) {
+                          //     ctrl.text = billPaymentsController.airtimeShortcutAmount.value.toString();
+                          //   }
+                          // },
+                          controller: ctrl,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: '₦ ${billPaymentsController.airtimeShortcutAmount.value}',
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(22),
+                              borderSide: const BorderSide(color: Colors.grey),
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(22),
+                              borderSide: const BorderSide(color: Colors.grey),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(22),
+                              borderSide: const BorderSide(color: Colors.blue),
+                            ),
+                          ),
+                          style: const TextStyle(
+                            fontFamily: "Roboto",
+                          ),
+                        ),
+                      ],
+                    );
                 }),
                 const Spacer(),
                 primaryButton(
@@ -175,14 +225,28 @@ class BuyAirtimeViewState extends State<BuyAirtimeView> {
                   title: 'Confirm',
                   color: AppColors.primaryColor,
                   onTap: () async {
-                    print(ctrl.text);
+                     if(phone_controller.text.isEmpty ) {
+                      Get.snackbar('Error', 'Enter a valid Phone number',snackPosition: SnackPosition.BOTTOM,
+                      backgroundColor: Colors.red, colorText: Colors.white,
+                        icon: const Icon(Icons.warning_amber_rounded, color: Colors.white),);
+                    }else if(ctrl.text.isEmpty ) {
+                       Get.snackbar('Error', 'Enter a valid amount',snackPosition: SnackPosition.BOTTOM,
+                           backgroundColor: Colors.red, colorText: Colors.white,
+                         icon: const Icon(Icons.warning_amber_rounded, color: Colors.white),);
+                     }else {
+                      storage.write('buy_airtime', {
+                        'amount': ctrl.text,
+                        'phone_number': phone_controller.text,
+                        'network': billPaymentsController.networkLogo
+                      });
 
-                    // await showModalBottomSheet(
-                    //   context: context,
-                    //   builder: (context) {
-                    //     return const PinBottomsheetView();
-                    //   },
-                    // );
+                      await showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return const PinBottomsheetView();
+                        },
+                      );
+                    }
                   },
                 ),
                 const Gap(36),
@@ -294,6 +358,10 @@ class CustomTextfield extends StatelessWidget {
               borderSide: const BorderSide(color: Colors.blue), // Change the color on focus
             ),
           ),
+          style: const  TextStyle(
+            fontFamily: "Roboto"
+          ),
+
         ),
       ],
     );

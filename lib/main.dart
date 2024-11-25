@@ -3,6 +3,7 @@ import 'package:billvaoit/app/http/controllers/bill_payments.dart';
 import 'package:billvaoit/resources/utils/app_theme.dart';
 import 'package:billvaoit/resources/views/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:billvaoit/resources/views/onboarding/onboarding.dart';
@@ -45,6 +46,7 @@ class MainApp extends StatelessWidget {
           themeMode: ThemeMode.light,
           theme: CustomAppTheme.lightTheme,
           darkTheme: CustomAppTheme.darkTheme,
+          builder: EasyLoading.init(),
           home: AnimatedSplashScreen(
             splash: 'assets/images/logo.png',
             nextScreen: isLoggedIn ? const Home() : const FirstPage(),

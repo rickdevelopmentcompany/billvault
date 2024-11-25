@@ -72,7 +72,7 @@ class FirstPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0),
               child: Text(
-                'Billvault App allows you to Trade crypto, Gift cards, pay bills, book your flight and get visual cards. Streamline your financial management with our easy-to-use and reliable platform',
+                'Billvault App allows you to Trade crypto, Gift cards, pay bills, book your flight and get virtual cards.',
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.w400,
                   color: Colors.black,

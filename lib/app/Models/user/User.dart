@@ -19,6 +19,19 @@ class User extends AuthController {
     return user_details['username'] ?? '';  // Handle null safety
   }
 
+  // Getter for username
+  String get user_id {
+    // print('user_detailsz: $user_details');
+    return user_details['id'].toString() ?? '';  // Handle null safety
+  }
+
+
+
+  // Getter for username
+  String get pin {
+    return  storage.read('user_pin') ?? '';  // Handle null safety
+  }
+
   // Getter for mobile number
   String get mobile {
     return user_details['mobile'].toString();  // Convert to string for consistency

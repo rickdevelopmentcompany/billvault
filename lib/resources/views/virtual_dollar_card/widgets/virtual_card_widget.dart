@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 
 Widget virtualCard({required BuildContext context, bool viewDetails = false,required VirtualDollarCardController virtualDollarCardController}) => Container(
       // height: 200,
+  width: MediaQuery.of(context).size.width * 0.9,
       padding: const EdgeInsets.symmetric(
         horizontal: 24,
         vertical: 24,
@@ -14,82 +15,100 @@ Widget virtualCard({required BuildContext context, bool viewDetails = false,requ
         image: DecorationImage(
           image: AssetImage('assets/images/card_bg.png'),
         ),
+
       ),
       child: Column(
         children: [
-          const SizedBox(height: 5),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+
+          children: [
+            Column(
+              children: [
+                Text(
+                  'CVV',
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 10,
+                    color: Colors.white,
+                  ),
+                ),
+                Text(
+                  viewDetails ? virtualDollarCardController.cvv : '****',
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                )
+              ],
+            ),
+          ],
+        ),
+          const Gap(80),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Image.asset('assets/images/logo.png',
-              height: 35,
-                  width: 35,
-              ),
-              Image.asset('assets/images/visa.png'),
-            ],
-          ),
-          const Gap(30),
-          Text(
-            viewDetails ? virtualDollarCardController.cardNumber : '****  ****  ****  ****',
-            style: Theme.of(context).textTheme.labelLarge?.copyWith(
+              Text(
+                viewDetails ? virtualDollarCardController.cardNumber : '****  ****  ****  ****',
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   fontWeight: FontWeight.w700,
-                  fontSize: 24,
+                  fontSize: 18,
                   color: Colors.white,
                 ),
-          ),
-          const Gap(10),
-          Row(
-            children: [
-              Image.asset('assets/images/card_part.png'),
+              )
             ],
           ),
           const Gap(12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Card holder name',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          fontSize: 12,
-                          color: Colors.white,
-                        ),
-                  ),
-                  const Gap(10),
-                  Text(
+          Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Card holder name',
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const Gap(5),
+                    Text(
                       viewDetails ? virtualDollarCardController.fullName : '****',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                  ),
-                ],
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Expiry date',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          fontSize: 12,
-                          color: Colors.white,
-                        ),
-                  ),
-                  const Gap(10),
-                  Text(
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Expiry date',
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontSize: 12,
+                        color: Colors.white,
+                      ),
+                    ),
+                    const Gap(5),
+                    Text(
                       viewDetails ? virtualDollarCardController.expiringDate : '****',
-                    style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
-                          color: Colors.white,
-                        ),
-                  ),
-                ],
-              ),
-            ],
+                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 16,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),

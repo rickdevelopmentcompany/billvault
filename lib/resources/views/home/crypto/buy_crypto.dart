@@ -4,8 +4,10 @@ import 'package:qr_flutter/qr_flutter.dart'; // Ensure this package is installed
 
 import '../../../../app/http/controllers/crypto_controller.dart';
 
-class TradeCryptoScreen extends StatelessWidget {
-  final CryptoController controller = Get.put(CryptoController());
+class BuyCryptoScreen extends StatelessWidget {
+  final CryptoController controller ;
+
+  const BuyCryptoScreen({super.key, required this.controller});
 
   @override
   Widget build(BuildContext context) {

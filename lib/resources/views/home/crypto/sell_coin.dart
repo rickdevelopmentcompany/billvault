@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
+import 'package:get_storage/get_storage.dart';
 
 import '../../../utils/app_colors.dart';
 import '../../../utils/button.dart';
@@ -16,6 +17,7 @@ class SellCoinViewState extends State<SellCoinView> {
   bool viewDetails = true;
   @override
   Widget build(BuildContext context) {
+    print(GetStorage().read('crypto_'));
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(

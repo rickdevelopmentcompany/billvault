@@ -1,14 +1,20 @@
 class WebRoutes {
-  static const String baseUrl = "https://billvaolt.payvalue.com.ng";
+  static const String baseUrl = "https://billvault.com.ng";
 
-
+//pin
+  static const String pin = '$baseUrl/api/change-pin'; // POST
+  // static const String pin = "http://localhost:8000/api/get-brokers";
   // Bill Payment
   static const String purchaseAirtime = '$baseUrl/api/purchase-airtime'; // POST
   static const String purchaseData = '$baseUrl/api/purchase-data'; // POST
   static const String fundBettingWallet = '$baseUrl/api/fund-betting-wallet'; // POST
+  static const String fundElectricity = '$baseUrl/api/subscribe-electricity'; // POST
   static const String queryTransaction = '$baseUrl/api/query-transaction'; // POST
   static const String cancelTransaction = '$baseUrl/api/cancel-transaction'; // POST
   static const String verifyCustomerID = '$baseUrl/api/verify-customer-id'; // POST
+  static const String cableTV = '$baseUrl/api/cable-tv'; // POST
+  // static const String fundBetting = '$baseUrl/fund-betting-wallet';
+
 
   // Authentication
   static const String register = '$baseUrl/api/register'; // POST
@@ -90,6 +96,7 @@ class WebRoutes {
 
   // Money Exchange
   static const String exchangeMoney = '$baseUrl/api/exchange/money'; // GET & POST
+  // static const String exchangeMoneyHistory = '$baseUrl/api/exchange/money'; // GET & POST
 
   // Invoice
   static const String invoiceAll = '$baseUrl/api/invoice/all'; // GET
@@ -113,22 +120,83 @@ class WebRoutes {
   static const String depositMethods = '$baseUrl/api/deposit/methods'; // GET
   static const String depositInsert = '$baseUrl/api/deposit/insert'; // POST
   static const String depositConfirm = '$baseUrl/api/deposit/confirm'; // GET
-  static const String depositManualConfirm = '$baseUrl/api/deposit/manual'; // GET
+  static const String depositManualConfirm = '$baseUrl/api/deposit/manual/confirm'; // POST
   static const String depositManualUpdate = '$baseUrl/api/deposit/manual'; // POST
 
   // Tawk.to link
   static const String tawktoLink = "https://tawk.to/chat/66e7f17b50c10f7a00aab067/1i7t0ejf3";
+
+
+
+
+
 }
 
 class ApiRoutes {
-  static const String baseUrl = "https://billvaolt.payvalue.com.ng";
-  static const String register = '$baseUrl/api/register';
-  static const String login = '$baseUrl/api/login';
-  static const String home = "$baseUrl/mobile/home";
-  static const int sessionTimeoutThreshold =
-  0; // Will refresh the access token 5 minutes before it expires
-  static const bool loginWithPassword = true; // if false hide the form login
-  //if false hide the fields password and confirm password from signup form
-  //for security reason and the password generated after verification mail
-  static const bool signupWithPassword = true;
-}
+
+
+  // Base URL of the Laravel backend
+  static const String baseUrl = 'https://virtual-card.billvault.com.ng';
+
+  // Home route
+  static const String home = '$baseUrl/';
+
+  // Card creation route
+  static const String createCard = '$baseUrl/create-card';
+
+  // has card
+  static const String hasCard = '$baseUrl/has-card';
+
+
+  // Register a cardholder
+  static const String registerCardholder = '$baseUrl/register-cardholder';
+
+  // Activate Physical Dollar Card
+  static String activateCard(String cardId) => '$baseUrl/activate-card/$cardId';
+
+  // Get card details
+  static String cardDetails = '$baseUrl/card-details';
+
+  // Get card balance
+  static String cardBalance(String cardId) => '$baseUrl/card-balance/$cardId';
+
+  // Fund a card
+  static const String fundCard = '$baseUrl/fund-card';
+
+  // Unload a card
+  static const String unloadCard = '$baseUrl/unload-card';
+
+  // Mock a debit transaction
+  static const String mockTransaction = '$baseUrl/mock-transaction';
+
+  // Get all card transactions
+  static const String cardTransactions = '$baseUrl/card-transactions';
+
+  // Get card transaction by ID
+  static const String cardTransactionById = '$baseUrl/card-transactios-byid';
+
+  // Get card transaction status
+  static String cardTransactionStatus(String cardId, String transactionId) =>
+  '$baseUrl/card-transaction-status/$cardId/$transactionId';
+
+  // Freeze a card
+  static String freezeCard(String cardId) => '$baseUrl/freeze-card/$cardId';
+
+  // Unfreeze a card
+  static String unfreezeCard(String cardId) => '$baseUrl/unfreeze-card/$cardId';
+
+  // Get all cards for a cardholder
+  static String cardholderCards(String cardholderId) =>
+  '$baseUrl/cardholder-cards/$cardholderId';
+
+  // Delete a card
+  static String deleteCard(String cardId) => '$baseUrl/delete-card/$cardId';
+
+  // Migrate a card
+  static String migrateCard(String cardId) => '$baseUrl/migrate-card/$cardId';
+
+  // Update card PIN
+  static String updateCardPin(String cardId) => '$baseUrl/update-card-pin/$cardId';
+
+
+  }

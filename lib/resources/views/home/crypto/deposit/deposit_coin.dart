@@ -133,15 +133,26 @@ Widget assetWidget(
   String? percent,
   bool decrease = true,
 }) =>
-    Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
+    Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 22),
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(Radius.circular(22)),
+        color: Colors.white,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 1,
+          ),
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             children: [
-              Image.asset('assets/images/${img ?? 'eth'}.png'),
-              const Gap(12),
+              Image.asset('assets/images/${img ?? 'eth'}.png', height: MediaQuery.of(context).size.height* 0.04,),
+              const Gap(8),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -152,6 +163,7 @@ Widget assetWidget(
                           fontSize: 16,
                         ),
                   ),
+                  Gap(8),
                   Text(
                     amount ?? '0.0004586 ETH',
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
@@ -175,11 +187,13 @@ Widget assetWidget(
                   fontFamily: 'Roboto'
                     ),
               ),
+              Gap(8),
               Text(
                 percent ?? '-21.00%',
                 style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       fontWeight: FontWeight.w400,
                       fontSize: 10,
+                      fontFamily: 'Roboto',
                       color: decrease
                           ? AppColors.redColor
                           : AppColors.primaryColor,

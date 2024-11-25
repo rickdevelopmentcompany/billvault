@@ -1,12 +1,16 @@
 import 'package:billvaoit/resources/views/home/crypto/sell_coin.dart';
+import 'package:billvaoit/resources/views/home/crypto/buy_crypto.dart';
+import 'package:billvaoit/resources/views/home/crypto/sell_crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gap/gap.dart';
 
+import '../../../../app/http/controllers/crypto_controller.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/button.dart';
 import 'buy_coin.dart';
 import 'deposit/select_coin.dart';
+import 'package:get/get.dart';
 
 class SingleCoinView extends StatefulWidget {
   const SingleCoinView({super.key});
@@ -127,6 +131,7 @@ class SingleCoinViewState extends State<SingleCoinView> {
                 ),
                 const Gap(4),
                 Image.asset('assets/images/chart.png'),
+
                 const Gap(4),
                 Align(
                   alignment: Alignment.centerLeft,
@@ -206,7 +211,7 @@ class SingleCoinViewState extends State<SingleCoinView> {
                     isOutlined: true,
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_) => const BuyCoinView(),
+                        builder: (_) => BuyCryptoScreen(controller: Get.put(CryptoController())),
                       ));
                     },
                   ),
@@ -215,7 +220,7 @@ class SingleCoinViewState extends State<SingleCoinView> {
                 Expanded(
                     child: primaryButton(context, title: 'Sell', onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => const SellCoinView(),
+                    builder: (_) => SellCryptoScreen(), //const SellCoinView(),
                   ));
                 })),
               ],

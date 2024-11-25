@@ -1,3 +1,4 @@
+import 'package:billvaoit/resources/views/auth_views/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
@@ -95,13 +96,14 @@ class LoginView extends StatelessWidget {
 
                UserController userController = Get.put(UserController());
                // Delay for 10 seconds
-               await Future.delayed(const Duration(seconds: 5));
+               // await Future.delayed(const Duration(seconds: 5));
                Get.snackbar("Success", "Login successfully", backgroundColor: Colors.blue, colorText: Colors.white);
-               authController.isLoading.value = false;
+               // authController.isLoading.value = false;
                Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => const Home(),
               ));
-             }else{ Get.snackbar("", "Login failed. please try again",backgroundColor: Colors.red,colorText: Colors.white);
+             }else{
+               Get.snackbar("", "Login failed. please try again",backgroundColor: Colors.red,colorText: Colors.white);
               }
             }),
             const Gap(38),
@@ -119,7 +121,7 @@ class LoginView extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () {
-                    Navigator.of(context).pop();
+                    Get.to(SignUpScreen());
                   },
                   child: Text(
                     'Create account',

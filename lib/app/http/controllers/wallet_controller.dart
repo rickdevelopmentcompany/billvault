@@ -37,7 +37,7 @@ class WalletController extends GetxController {
   }
 
   // Fetch wallet response
-  void fetchResponse() async {
+  Future<void> fetchResponse() async {
     isLoading(true); // Start loading
     try {
       // Example request to fetch the wallet data
